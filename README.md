@@ -1,7 +1,7 @@
 # Where-is-my-money
 
-Java Spring Boot app with Jpa Hibernate and MySql database. The main goal is to create an expense management application with 
-Spring Boot back-end and Javascript jQuerry cielnt.
+Java Spring Boot app with Jpa Hibernate and MySQL database. The main goal is to create an expense management application with 
+Spring Boot back-end and Javascript jQuerry client.
 
 Java 1.8
 
@@ -12,6 +12,6 @@ MySql server 5.7
 
 ## TO DO
 
-JavaScript JQuerry client
+JavaScript jQuerry client
 
 Tests
