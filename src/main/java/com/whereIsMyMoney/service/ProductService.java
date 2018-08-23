@@ -2,7 +2,6 @@ package com.whereIsMyMoney.service;
 
 import com.whereIsMyMoney.dao.CategoryDao;
 import com.whereIsMyMoney.dao.ProductDao;
-import com.whereIsMyMoney.dao.PurchaseDao;
 import com.whereIsMyMoney.dataModel.Category;
 import com.whereIsMyMoney.dataModel.Product;
 import com.whereIsMyMoney.exception.DataNotFoundException;
@@ -20,33 +19,38 @@ public class ProductService {
     @Autowired
     CategoryDao categoryDao;
 
-    @Autowired
-    PurchaseDao purchaseDao;
-
     public List<Product> getAll(){
         return productDao.findAll();
     }
 
     public Product getOne(int id){
         Product theProduct = productDao.getOne(id);
-        setCategoryToProduct(theProduct);
+        if(theProduct != null) {
+            setCategoryToProduct(theProduct);
+        }
         return theProduct;
     }
 
     public Product getOne(String  name){
         Product theProduct = productDao.findByName(name);
-        setCategoryToProduct(theProduct);
+        if(theProduct != null) {
+            setCategoryToProduct(theProduct);
+        }
         return theProduct;
     }
 
-    public void add(Product theProduct){
+    public Product add(Product theProduct){
         setCategoryToProduct(theProduct);
-        productDao.save(theProduct);
+        return productDao.save(theProduct);
     }
 
-    public void update(Product theProduct){
+    public Product update(Product theProduct){
         setCategoryToProduct(theProduct);
-        productDao.save(theProduct);
+        return productDao.save(theProduct);
+    }
+
+    public List<Product> getByNameStartingWith(String name){
+        return productDao.findByNameStartingWith(name);
     }
 
     public void delete(Product theProduct){

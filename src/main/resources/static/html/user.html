@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="../css/user-style.css">
+</head>
+
+<body>
+    <div class="sidenav">
+            <a href="../html/bill.html">Bills</a><br>
+            <a href="../html/purchase.html">Purchases</a><br>
+            <a href="../html/shop.html">Shops</a><br>
+            <a href="../html/product.html">Products</a><br>
+            <a href="../html/category.html">Categories</a><br>
+            <a href="../html/user.html">Users</a><br>
+    </div>
+
+    <div class="container">
+        <h1>Users</h1>
+        <hr>
+        <div class="top-bar">
+            <form id="create-form">
+                <input type="text" id="create-name" placeholder="Name..." />
+                <input type="text" id="create-pass" placeholder="Password..." />
+                <input type="text" id="create-email" placeholder="Email..." />
+                <button type="submit">Add</button>
+
+            </form>
+            <input type="text" id="search" class="search" placeholder="Search..">
+        </div>
+        <div>
+            <table id="userTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Password</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="../js/user.js"></script>
+</body>
+
+</html>

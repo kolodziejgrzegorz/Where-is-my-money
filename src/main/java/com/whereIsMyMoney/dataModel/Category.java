@@ -21,7 +21,7 @@ public class Category implements BaseModel{
 
     @JsonIgnore
     @OneToMany(mappedBy = "category", fetch=FetchType.EAGER)
-    private List<Product> products = new ArrayList<>();;
+    private List<Product> products = new ArrayList<>();
 
     public Category() {
     }

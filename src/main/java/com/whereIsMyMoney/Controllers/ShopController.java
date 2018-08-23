@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class ShopController {
     @Autowired
@@ -36,20 +37,20 @@ public class ShopController {
         return shopService.getOne(id);
     }
 
-    @RequestMapping( value = "/shops", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE })
+    @RequestMapping( value = "/shops", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody Shop theShop) {
+    public Shop add(@RequestBody Shop theShop) {
         if(shopService.exists(theShop.getId())) {
             throw new DataExistsException("Shop with id '" + theShop.getId() + "' already exists");
         }
-        shopService.add(theShop);
+        return shopService.add(theShop);
     }
 
     @PutMapping( "/shops/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateShop(@RequestBody Shop theShop) {
+    public Shop updateShop(@RequestBody Shop theShop) {
         shopExist(theShop.getId());
-        shopService.update(theShop);
+        return shopService.update(theShop);
     }
 
     @DeleteMapping("/shops/{id}")

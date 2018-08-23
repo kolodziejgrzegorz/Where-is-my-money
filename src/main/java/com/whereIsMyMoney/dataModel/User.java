@@ -18,8 +18,10 @@ public class User  implements BaseModel{
     private int id;
     @Column(name="name", nullable = false)
     private String name;
+    @JsonIgnore
     @Column(name="email", nullable = false)
     private String email;
+    @JsonIgnore
     @Column(name="password", nullable = false)
     private String password;
 

@@ -1,10 +1,8 @@
 package com.whereIsMyMoney.service;
 
-import com.whereIsMyMoney.dao.ProductDao;
 import com.whereIsMyMoney.dao.PurchaseDao;
 import com.whereIsMyMoney.dataModel.Product;
 import com.whereIsMyMoney.dataModel.Purchase;
-import com.whereIsMyMoney.exception.DataNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +12,9 @@ import java.util.List;
 public class PurchaseService {
     @Autowired
     PurchaseDao purchaseDao;
-    
+
     @Autowired
-    ProductDao productDao;
+    ProductService productService;
 
     public List<Purchase> getAll(){
         return purchaseDao.findAll();
@@ -30,16 +28,16 @@ public class PurchaseService {
         return purchaseDao.findByBillId(id);
     }
 
-    public void add(Purchase thePurchase){
+    public Purchase add(Purchase thePurchase){
         setProductToPurchase(thePurchase);
-        thePurchase.setSum( thePurchase.getProduct_quantity()*thePurchase.getProduct_price() );
-        purchaseDao.save(thePurchase);
+        thePurchase.setSum( thePurchase.getProductQuantity()*thePurchase.getProductPrice() );
+        return purchaseDao.save(thePurchase);
     }
 
-    public void update(Purchase thePurchase){
+    public Purchase update(Purchase thePurchase){
         setProductToPurchase(thePurchase);
-        thePurchase.setSum( thePurchase.getProduct_quantity()*thePurchase.getProduct_price() );
-        purchaseDao.save(thePurchase);
+        thePurchase.setSum( thePurchase.getProductQuantity()*thePurchase.getProductPrice() );
+        return purchaseDao.save(thePurchase);
     }
 
     public void delete(Purchase thePurchase){
@@ -53,11 +51,13 @@ public class PurchaseService {
     }
 
     private void setProductToPurchase(Purchase thePurchase){
-        String productName = thePurchase.getProduct().getName();
-        if(productDao.findByName(productName) == null){
-            throw new DataNotFoundException("Not found product with name " + productName);
+        Product product = productService.getOne(thePurchase.getProduct().getName());
+        if( product == null ){
+            product = new Product();
+            product.setName(thePurchase.getProduct().getName());
+            product.setCategory(thePurchase.getProduct().getCategory());
+            productService.add(product);
         }
-        Product product = productDao.findByName(productName);
         thePurchase.setProduct(product);
     }
 }

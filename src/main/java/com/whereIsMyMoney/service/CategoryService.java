@@ -21,21 +21,21 @@ public class CategoryService {
         return categoryDao.getOne(id);
     }
 
-    public void add(Category theCategory){
-        categoryDao.save(theCategory);
+    public Category add(Category theCategory){
+        return categoryDao.save(theCategory);
     }
 
-    public void update(Category theCategory){
-        categoryDao.save(theCategory);
+    public Category update(Category theCategory){
+        return categoryDao.save(theCategory);
     }
 
     public void delete(Category theCategory){
-        onDeleteSetMessage(theCategory);
-//        categoryDao.delete(theCategory);
+//        onDeleteSetMessage(theCategory);
+        categoryDao.delete(theCategory);
     }
     public void delete(int id){
-        onDeleteSetMessage(getOne(id));
-//        categoryDao.delete(id);
+//        onDeleteSetMessage(getOne(id));
+        categoryDao.delete(id);
     }
     public boolean exists(int id){
         return categoryDao.exists(id);

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class PurchaseController {
 
@@ -25,20 +26,20 @@ public class PurchaseController {
 
     }
 
-//    @GetMapping("/purchases")
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<Purchase> getAllPurchases() {
-//        List<Purchase> purchases = purchaseService.getAll();
-//        if(purchases==null) {
-//            throw new DataNotFoundException("Purchases list not found");
-//        }
-//        return purchases;
-//    }
-
-    @GetMapping("users/{userId}/bills/{billId}/purchases")
+    @GetMapping("/purchases")
     @ResponseStatus(HttpStatus.OK)
-    public List<Purchase> getBillPurchases(@PathVariable int userId, @PathVariable int billId) {
-        Bill bill = billController.getBill(userId,  billId);
+    public List<Purchase> getAllPurchases() {
+        List<Purchase> purchases = purchaseService.getAll();
+        if(purchases==null) {
+            throw new DataNotFoundException("Purchases list not found");
+        }
+        return purchases;
+    }
+
+    @GetMapping("/bills/{billId}/purchases")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Purchase> getBillPurchases(@PathVariable int billId) {
+        Bill bill = billController.getBill(billId);
         List<Purchase> purchases = purchaseService.getByBillId(billId);
         if(purchases==null) {
             throw new DataNotFoundException("Purchases list not found");
@@ -46,38 +47,35 @@ public class PurchaseController {
         return purchases;
     }
 
-    @GetMapping(value = "users/{userId}/bills/{billId}/purchases/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/purchases/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Purchase getPurchase(@PathVariable int userId, @PathVariable int billId, @PathVariable("id") int id) {
+    public Purchase getPurchase(@PathVariable("id") int id) {
         purchaseExist(id);
-        Bill bill = billController.getBill(userId,  billId);
         return purchaseService.getOne(id);
     }
 
-    @PostMapping("users/{userId}/bills/{billId}/purchases")
+    @PostMapping("/bills/{billId}/purchases")
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@PathVariable int userId, @PathVariable int billId, @RequestBody Purchase thePurchase) {
+    public Purchase add(@PathVariable int billId, @RequestBody Purchase thePurchase) {
         if(purchaseService.exists(thePurchase.getId())) {
             throw new DataExistsException("Purchase with id '" + thePurchase.getId() + "' already exists");
         }
-        Bill bill = billController.getBill(userId,  billId);
+        Bill bill = billController.getBill(billId);
         thePurchase.setBill(bill);
-        purchaseService.add(thePurchase);
+        return purchaseService.add(thePurchase);
     }
 
-    @PutMapping("users/{userId}/bills/{billId}/purchases/{id}")
+    @PutMapping("/purchases/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updatePurchase(@PathVariable int userId, @PathVariable int billId, @RequestBody Purchase thePurchase) {
+    public Purchase updatePurchase( @RequestBody Purchase thePurchase ) {
         purchaseExist(thePurchase.getId());
-        Bill bill = billController.getBill(userId,  billId);
-        purchaseService.update(thePurchase);
+        return purchaseService.update(thePurchase);
     }
 
-    @DeleteMapping("users/{userId}/bills/{billId}/purchases/{id}")
+    @DeleteMapping("/purchases/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deletePurchase(@PathVariable int userId, @PathVariable int billId, @PathVariable("id") int id) {
+    public void deletePurchase( @PathVariable("id") int id ) {
         purchaseExist(id);
-        Bill bill = billController.getBill(userId,  billId);
         purchaseService.delete(id);
     }
 

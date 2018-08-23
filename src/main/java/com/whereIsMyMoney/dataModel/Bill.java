@@ -1,10 +1,12 @@
 package com.whereIsMyMoney.dataModel;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,6 +20,7 @@ public class Bill implements BaseModel {
     @Column(name="id", nullable = false)
     private int id;
     @Column(name = "date", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
     @Column(name = "sum", nullable = false)
     private double sum = -1;
@@ -26,10 +29,12 @@ public class Bill implements BaseModel {
     @JoinColumn(name="shop_id", nullable=false)
     private Shop shop;
 
+    //@JsonIgnore
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL)
     private List<Purchase> purchases = new ArrayList<>();
 
@@ -99,6 +104,7 @@ public class Bill implements BaseModel {
                 ", sum = " + sum +
                 ", shop = " + shop.getName() +
                 ", user = " + user.getName() +
+                ", purchases" + purchases +
                 '}';
     }
 

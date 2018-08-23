@@ -10,4 +10,5 @@ import java.util.List;
 public interface ProductDao extends JpaRepository<Product, Integer> {
     Product findByName(String name);
     List<Product> findByCategoryName(String name);
+    List<Product> findByNameStartingWith(String name);
 }

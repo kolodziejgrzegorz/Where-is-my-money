@@ -1,8 +1,11 @@
 package com.whereIsMyMoney.dataModel;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,8 +27,8 @@ public class Product  implements BaseModel{
     private Category category;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "product")
-    private Purchase purchase;
+    @OneToMany(mappedBy = "product")
+    private List<Purchase> purchases = new ArrayList<>();
 
 
     public Product() {
@@ -60,13 +63,7 @@ public class Product  implements BaseModel{
         this.category = category;
     }
 
-    public Purchase getPurchase() {
-        return purchase;
-    }
 
-    public void setPurchase(Purchase purchase) {
-        this.purchase = purchase;
-    }
 
     @Override
     public String toString() {

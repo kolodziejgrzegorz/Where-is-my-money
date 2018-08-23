@@ -3,9 +3,11 @@ package com.whereIsMyMoney.service;
 import com.whereIsMyMoney.dao.BillDao;
 import com.whereIsMyMoney.dao.PurchaseDao;
 import com.whereIsMyMoney.dao.ShopDao;
+import com.whereIsMyMoney.dao.UserDao;
 import com.whereIsMyMoney.dataModel.Bill;
 import com.whereIsMyMoney.dataModel.Purchase;
 import com.whereIsMyMoney.dataModel.Shop;
+import com.whereIsMyMoney.dataModel.User;
 import com.whereIsMyMoney.exception.DataNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class BillService {
     @Autowired
     PurchaseDao purchaseDao;
 
+    @Autowired
+    UserDao userDao;
+
     public List<Bill> getAll(){
         return billDao.findAll();
     }
@@ -37,16 +42,16 @@ public class BillService {
         return billDao.findByUserId(id);
     }
 
-    public void add(Bill theBill){
+    public Bill add(Bill theBill){
         setShopToBill(theBill);
-        theBill.setSum(sumCalculator(theBill));
-        billDao.save(theBill);
+        return billDao.save(theBill);
     }
 
-    public void update(Bill theBill){
+    public Bill update(Bill theBill){
+        setUserToBill(theBill);
         setShopToBill(theBill);
         theBill.setSum(sumCalculator(theBill));
-        billDao.save(theBill);
+        return billDao.save(theBill);
     }
 
     public void delete(Bill theBill){
@@ -68,6 +73,12 @@ public class BillService {
         }
         Shop shop = shopDao.findByName(shopName);
         theBill.setShop(shop);
+    }
+
+    private void setUserToBill(Bill theBill){
+        String userName = theBill.getUser().getName();
+        User user = userDao.findByName(userName);
+        theBill.setUser(user);
     }
 
     private void onDeleteAction(Bill theBill){

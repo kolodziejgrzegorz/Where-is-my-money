@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class UserController {
 
@@ -34,18 +35,18 @@ public class UserController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody User theUser) {
+    public User add(@RequestBody User theUser) {
         if(userService.exists(theUser.getId())) {
             throw new  DataNotFoundException("User with Id = " + theUser.getId() + " already exists ");
         }
-        userService.add(theUser);
+        return userService.add(theUser);
     }
 
     @PutMapping( "/users/{id}" )
     @ResponseStatus(HttpStatus.OK)
-    public void updateUser(@RequestBody User theUser) {
+    public User updateUser(@RequestBody User theUser) {
         userExist(theUser.getId());
-        userService.update(theUser);
+        return userService.update(theUser);
     }
 
     @DeleteMapping( "/users/{id}")

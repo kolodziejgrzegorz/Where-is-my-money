@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class ProductController {
 
@@ -41,21 +42,20 @@ public class ProductController {
 
     @RequestMapping( value = "/products", method = RequestMethod.POST )
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody Product theProduct) {
+    public Product add(@RequestBody Product theProduct) {
         if(productService.exists(theProduct.getId())) {
             throw new DataExistsException("Product with id '" + theProduct.getId() + "' already exists");
         }
-        productService.add(theProduct);
-
+        return productService.add(theProduct);
     }
 
     @PutMapping( "/products/{id}" )
     @ResponseStatus(HttpStatus.OK)
-    public void updateProduct(@RequestBody Product theProduct) {
+    public Product updateProduct(@RequestBody Product theProduct) {
         if(!productService.exists(theProduct.getId())) {
             throw new  DataNotFoundException("Product with Id = " + theProduct.getId() + " not found ");
         }
-        productService.update(theProduct);
+        return productService.update(theProduct);
     }
 
     @DeleteMapping("/products/{id}")
@@ -65,6 +65,13 @@ public class ProductController {
             throw new  DataNotFoundException("Product with Id = " + id + " not found ");
         }
         productService.delete(id);
+    }
+
+    @GetMapping(value = "/products/search", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @ResponseStatus(HttpStatus.OK)
+    public List<Product> getByNameStartingWith(@RequestParam("q") String input) {
+        List<Product> products = productService.getByNameStartingWith(input);
+        return products;
     }
 
 }

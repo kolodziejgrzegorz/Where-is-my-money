@@ -20,21 +20,21 @@ public class ShopService {
         return shopDao.getOne(id);
     }
 
-    public void add(Shop theShop){
-        shopDao.save(theShop);
+    public Shop add(Shop theShop){
+        return shopDao.save(theShop);
     }
 
-    public void update(Shop theShop){
-        shopDao.save(theShop);
+    public Shop update(Shop theShop){
+        return shopDao.save(theShop);
     }
 
     public void delete(Shop theShop){
-        onDeleteSetMessage(theShop);
-        //shopDao.delete(theShop);
+        //onDeleteSetMessage(theShop);
+        shopDao.delete(theShop);
     }
     public void delete(int id){
-        onDeleteSetMessage(shopDao.findOne(id));
-        //shopDao.delete(id);
+        //onDeleteSetMessage(shopDao.findOne(id));
+        shopDao.delete(id);
     }
     public boolean exists(int id){
         return shopDao.exists(id);

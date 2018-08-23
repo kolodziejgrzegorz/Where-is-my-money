@@ -14,32 +14,42 @@ public class Purchase  implements BaseModel{
     @Column(name="id", nullable = false)
     private int id;
     @Column(name = "product_quantity", nullable = false)
-    private int product_quantity;
+    private int productQuantity;
     @Column(name = "product_price", nullable = false)
-    private double product_price;
+    private double productPrice;
     @Column(name = "sum", nullable = false)
     private double sum;
 
-    @JsonIgnore
+
+    //@JsonManagedReference
+    @JsonIgnoreProperties({"date", "sum","user","shop","product","purchases" })
     @ManyToOne
     @JoinColumn(name="bill_id", nullable=false)
     private Bill bill;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_id")
-//    @JsonIgnoreProperties("id")
     private Product product;
 
     public Purchase() {
     }
 
-    public Purchase(int id, int product_quantity, double product_price, double sum, Bill bill, Product product) {
+    public Purchase(int id, int productQuantity, double productPrice, double sum, Bill bill, Product product) {
         this.id = id;
-        this.product_quantity = product_quantity;
-        this.product_price = product_price;
+        this.productQuantity = productQuantity;
+        this.productPrice = productPrice;
         this.sum = sum;
         this.bill = bill;
         this.product = product;
+    }
+
+    public Purchase(int id, int productQuantity, double productPrice, double sum, Bill theBill, String product_name) {
+        this.id = id;
+        this.productQuantity = productQuantity;
+        this.productPrice = productPrice;
+        this.sum = sum;
+        this.bill = theBill;
+        this.product.setName(product_name);
     }
 
     public int getId() {
@@ -66,20 +76,20 @@ public class Purchase  implements BaseModel{
         this.product = product;
     }
 
-    public int getProduct_quantity() {
-        return product_quantity;
+    public int getProductQuantity() {
+        return productQuantity;
     }
 
-    public void setProduct_quantity(int product_quantity) {
-        this.product_quantity = product_quantity;
+    public void setProductQuantity(int productQuantity) {
+        this.productQuantity = productQuantity;
     }
 
-    public double getProduct_price() {
-        return product_price;
+    public double getProductPrice() {
+        return productPrice;
     }
 
-    public void setProduct_price(double product_price) {
-        this.product_price = product_price;
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
     }
 
     public double getSum() {
@@ -91,4 +101,14 @@ public class Purchase  implements BaseModel{
     }
 
 
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "productQuantity=" + productQuantity +
+                ", productPrice=" + productPrice +
+                ", sum=" + sum +
+                ", bill_id=" + bill.getId() +
+                ", product=" + product.getName() +
+                '}';
+    }
 }

@@ -25,12 +25,14 @@ public class UserService {
         return userDao.getOne(id);
     }
 
-    public void add(User theUser){
-        userDao.save(theUser);
+    public User getOneByName(String name){ return userDao.findByName(name);}
+
+    public User add(User theUser){
+        return userDao.save(theUser);
     }
 
-    public void update(User theUser){
-        userDao.save(theUser);
+    public User update(User theUser){
+        return userDao.save(theUser);
     }
 
     public void delete(User theUser){

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class CategoryController {
     @Autowired
@@ -37,18 +38,18 @@ public class CategoryController {
 
     @RequestMapping( value = "/categories", method = RequestMethod.POST )
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody Category theCategory) {
+    public Category add(@RequestBody Category theCategory) {
         if(categoryService.exists(theCategory.getId())) {
             throw new  DataNotFoundException("Category with Id = " + theCategory.getId() + " already exists");
         }
-        categoryService.add(theCategory);
+       return categoryService.add(theCategory);
     }
 
     @PutMapping( "/categories/{id}" )
     @ResponseStatus(HttpStatus.OK)
-    public void updateCategory(@RequestBody Category theCategory) {
+    public Category updateCategory(@RequestBody Category theCategory) {
         categoryExist(theCategory.getId());
-        categoryService.update(theCategory);
+        return categoryService.update(theCategory);
     }
 
     @DeleteMapping("/categories/{id}")
