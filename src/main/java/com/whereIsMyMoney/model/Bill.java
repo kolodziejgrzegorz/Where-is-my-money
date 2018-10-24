@@ -1,4 +1,4 @@
-package com.whereIsMyMoney.dataModel;
+package com.whereIsMyMoney.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,9 +19,11 @@ public class Bill implements BaseModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
     private int id;
+
     @Column(name = "date", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
+
     @Column(name = "sum", nullable = false)
     private double sum = -1;
 

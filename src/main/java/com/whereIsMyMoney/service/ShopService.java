@@ -1,7 +1,7 @@
 package com.whereIsMyMoney.service;
 
 import com.whereIsMyMoney.dao.ShopDao;
-import com.whereIsMyMoney.dataModel.Shop;
+import com.whereIsMyMoney.model.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

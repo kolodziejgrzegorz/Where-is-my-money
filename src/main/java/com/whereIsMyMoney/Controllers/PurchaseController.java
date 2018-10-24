@@ -1,9 +1,9 @@
 package com.whereIsMyMoney.Controllers;
 
-import com.whereIsMyMoney.dataModel.Bill;
-import com.whereIsMyMoney.dataModel.Purchase;
 import com.whereIsMyMoney.exception.DataExistsException;
 import com.whereIsMyMoney.exception.DataNotFoundException;
+import com.whereIsMyMoney.model.Bill;
+import com.whereIsMyMoney.model.Purchase;
 import com.whereIsMyMoney.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

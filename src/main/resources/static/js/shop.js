@@ -1,7 +1,7 @@
 $(function() {
 	const tBodyEl = $('tbody');
     $.get({
-			url : "http://localhost:8090/shops",
+			url : "http://localhost:8080/shops",
 			contentType : 'application/json',
 			success: function(result){
 				$.each(result, function(i, shop){
@@ -33,7 +33,7 @@ $(function() {
 		var createInput = $('#create-input');
 
 		$.ajax({
-			url : "http://localhost:8090/shops",
+			url : "http://localhost:8080/shops",
 			method : 'POST',
 			contentType : 'application/json',
 			data : JSON.stringify({ name : createInput.val()}),
@@ -60,7 +60,7 @@ $(function() {
 		const newName = rowEl.find("#nameInput").val();
 	
 		$.ajax({
-			url : "http://localhost:8090/shops/" + id,
+			url : "http://localhost:8080/shops/" + id,
 			method : 'PUT',
 			contentType : 'application/json',
 			data : JSON.stringify({ 
@@ -80,7 +80,7 @@ $(function() {
 		const id = rowEl.find('.id').text();
 		console.log(id);
 		$.ajax({
-			url : "http://localhost:8090/shops/" + id,
+			url : "http://localhost:8080/shops/" + id,
 			method : 'DELETE',
 			contentType : 'application/json',
 			success : function(response){

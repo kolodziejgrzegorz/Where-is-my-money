@@ -1,6 +1,6 @@
-package com.whereIsMyMoney.dataModel;
+package com.whereIsMyMoney.model;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 

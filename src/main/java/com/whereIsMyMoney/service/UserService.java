@@ -2,8 +2,8 @@ package com.whereIsMyMoney.service;
 
 import com.whereIsMyMoney.dao.BillDao;
 import com.whereIsMyMoney.dao.UserDao;
-import com.whereIsMyMoney.dataModel.Bill;
-import com.whereIsMyMoney.dataModel.User;
+import com.whereIsMyMoney.model.Bill;
+import com.whereIsMyMoney.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

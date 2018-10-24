@@ -1,7 +1,7 @@
 $(function() {
 	const tBodyEl = $('tbody');
     $.get({
-			url : "http://localhost:8090/categories",
+			url : "http://localhost:8080/categories",
 			contentType : 'application/json',
 			success: function(result){
 				$.each(result, function(i, category){

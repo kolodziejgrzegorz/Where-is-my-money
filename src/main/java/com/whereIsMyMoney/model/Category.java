@@ -1,4 +1,4 @@
-package com.whereIsMyMoney.dataModel;
+package com.whereIsMyMoney.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -9,34 +9,26 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="product")
+@Table(name="category")
 @JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
-public class Product  implements BaseModel{
+public class Category implements BaseModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
     private int id;
-
     @Column(name="name", nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name="category_id", nullable = false)
-//    @JsonIgnoreProperties("id")
-    private Category category;
-
     @JsonIgnore
-    @OneToMany(mappedBy = "product")
-    private List<Purchase> purchases = new ArrayList<>();
+    @OneToMany(mappedBy = "category", fetch=FetchType.EAGER)
+    private List<Product> products = new ArrayList<>();
 
-
-    public Product() {
+    public Category() {
     }
 
-    public Product(String name, Category category) {
+    public Category(String name) {
         this.name = name;
-        this.category = category;
     }
 
     public int getId() {
@@ -55,32 +47,34 @@ public class Product  implements BaseModel{
         this.name = name;
     }
 
-    public Category getCategory() {
-        return category;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
-
-
-    @Override
-    public String toString() {
-        return name;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return Objects.equals(name, product.name);
+        Category category = (Category) o;
+        return Objects.equals(name, category.name);
     }
 
     @Override
     public int hashCode() {
 
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

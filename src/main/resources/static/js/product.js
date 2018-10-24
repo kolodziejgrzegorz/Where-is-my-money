@@ -12,7 +12,7 @@ $(document).ready(function () {
     //getCategories();
 
     var getCategories = function() {
-        return $.getJSON("http://localhost:8090/categories", function (result) {
+        return $.getJSON("http://localhost:8080/categories", function (result) {
             $.each(result, function () {
                 options.append($("<option />").text(this.name));
             });
@@ -22,7 +22,7 @@ $(document).ready(function () {
     // GET ALL PRODUCTS AFTER CATEGORIES
     var getProducts = function() {
         return $.ajax({
-            url: "http://localhost:8090/products",
+            url: "http://localhost:8080/products",
             contentType: 'application/json',
             success: function (result) {
                 console.log("==================================")
@@ -57,7 +57,7 @@ $(document).ready(function () {
         const selected = $("#selectCategory :selected").text();
         console.log(selected);
         $.ajax({
-            url: "http://localhost:8090/products",
+            url: "http://localhost:8080/products",
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -88,7 +88,7 @@ $(document).ready(function () {
         const newName = rowEl.find("#nameInput").val();
         const newCategory = rowEl.find("#changeCategory").val();
         $.ajax({
-            url: "http://localhost:8090/products/" + id,
+            url: "http://localhost:8080/products/" + id,
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -112,7 +112,7 @@ $(document).ready(function () {
         const id = rowEl.find('.id').text();
         console.log(id);
         $.ajax({
-            url: "http://localhost:8090/products/" + id,
+            url: "http://localhost:8080/products/" + id,
             method: 'DELETE',
             contentType: 'application/json',
             success: function (response) {

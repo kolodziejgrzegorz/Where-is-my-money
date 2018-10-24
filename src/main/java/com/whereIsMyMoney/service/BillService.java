@@ -4,11 +4,11 @@ import com.whereIsMyMoney.dao.BillDao;
 import com.whereIsMyMoney.dao.PurchaseDao;
 import com.whereIsMyMoney.dao.ShopDao;
 import com.whereIsMyMoney.dao.UserDao;
-import com.whereIsMyMoney.dataModel.Bill;
-import com.whereIsMyMoney.dataModel.Purchase;
-import com.whereIsMyMoney.dataModel.Shop;
-import com.whereIsMyMoney.dataModel.User;
 import com.whereIsMyMoney.exception.DataNotFoundException;
+import com.whereIsMyMoney.model.Bill;
+import com.whereIsMyMoney.model.Purchase;
+import com.whereIsMyMoney.model.Shop;
+import com.whereIsMyMoney.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,15 +42,15 @@ public class BillService {
         return billDao.findByUserId(id);
     }
 
-    public Bill add(Bill theBill){
+    public Bill save(Bill theBill){
         setShopToBill(theBill);
         return billDao.save(theBill);
     }
 
     public Bill update(Bill theBill){
-        setUserToBill(theBill);
+//        setUserToBill(theBill);
         setShopToBill(theBill);
-        theBill.setSum(sumCalculator(theBill));
+//        theBill.setSum(sumCalculator(theBill));
         return billDao.save(theBill);
     }
 

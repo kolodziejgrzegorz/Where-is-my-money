@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     // GET ALL 
     $.ajax({
-            url: "http://localhost:8090/purchases",
+            url: "http://localhost:8080/purchases",
             contentType: 'application/json',
             success: function (result) {
                 $.each(result, function (i, purchase) {

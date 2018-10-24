@@ -1,4 +1,4 @@
-package com.whereIsMyMoney.dataModel;
+package com.whereIsMyMoney.model;
 
 import java.util.List;
 

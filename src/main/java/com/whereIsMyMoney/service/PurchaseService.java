@@ -1,8 +1,8 @@
 package com.whereIsMyMoney.service;
 
 import com.whereIsMyMoney.dao.PurchaseDao;
-import com.whereIsMyMoney.dataModel.Product;
-import com.whereIsMyMoney.dataModel.Purchase;
+import com.whereIsMyMoney.model.Product;
+import com.whereIsMyMoney.model.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

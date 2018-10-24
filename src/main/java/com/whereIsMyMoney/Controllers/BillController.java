@@ -1,10 +1,10 @@
 package com.whereIsMyMoney.Controllers;
 
-import com.whereIsMyMoney.dataModel.Bill;
-import com.whereIsMyMoney.dataModel.Purchase;
-import com.whereIsMyMoney.dataModel.PurchasesWrapper;
 import com.whereIsMyMoney.exception.DataExistsException;
 import com.whereIsMyMoney.exception.DataNotFoundException;
+import com.whereIsMyMoney.model.Bill;
+import com.whereIsMyMoney.model.Purchase;
+import com.whereIsMyMoney.model.PurchasesWrapper;
 import com.whereIsMyMoney.service.BillService;
 import com.whereIsMyMoney.service.PurchaseService;
 import com.whereIsMyMoney.service.UserService;
@@ -66,7 +66,7 @@ public class BillController {
         if(billService.exists(theBill.getId())) {
             throw new DataExistsException("Bill with id '" + theBill.getId() + "' already exists");
         }
-        return billService.add(theBill);
+        return billService.save(theBill);
     }
 
     @RequestMapping( value = "/bills/purchases", method = RequestMethod.POST,
@@ -83,9 +83,13 @@ public class BillController {
 
     @PutMapping("/bills/{id}" )
     @ResponseStatus(HttpStatus.OK)
-    public Bill updateBill(@RequestBody Bill theBill) {
-        billExist(theBill.getId());
-        return billService.update(theBill);
+    public Bill updateBill(@RequestBody Bill theBill, @PathVariable int id) {
+        billExist(id);
+        theBill.setId(id);
+        System.out.println(theBill);
+        Bill updatedBill = billService.update(theBill);
+        System.out.println(updatedBill);
+        return updatedBill;
     }
 
     @DeleteMapping("/bills/{id}")

@@ -1,7 +1,7 @@
 package com.whereIsMyMoney.Controllers;
 
-import com.whereIsMyMoney.dataModel.User;
 import com.whereIsMyMoney.exception.DataNotFoundException;
+import com.whereIsMyMoney.model.User;
 import com.whereIsMyMoney.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

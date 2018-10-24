@@ -6,7 +6,7 @@
     justify-content: left;
 }
 .search{
-    margin-left:4px ;
+    margin-left:5px ;
     position: static;
 
 }
@@ -75,4 +75,8 @@ th {
     
     left: 5px;
    clear: both;
+}
+
+.billTable{
+    margin: 5px;
 }
