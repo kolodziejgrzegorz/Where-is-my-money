@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bill Form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="../css/bill-style.css">
+</head>
+
+<body>
+<div class="sidenav">
+    <a href="../html/bill.html">Bills</a>
+    <br>
+    <a href="../html/purchase.html">Purchases</a>
+    <br>
+    <a href="../html/shop.html">Shops</a>
+    <br>
+    <a href="../html/product.html">Products</a>
+    <br>
+    <a href="../html/category.html">Categories</a>
+    <br>
+    <a href="../html/user.html">Users</a>
+    <br>
+</div>
+
+<div id="container" class="container">
+    <h1>Bill Form</h1>
+    <hr>
+    <div class="top-bar">
+        <input type="text" id="search" class="search" placeholder="Search..">
+    </div>
+    <div class="billTable">
+        <table id="newBill" class="new-bill-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Sum</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="newBillTBody">
+                <tr>
+                    <td><input id="productName" class="autocomplete" type="text"></td>
+                    <td><input id="productQuantity" type="text"></td>
+                    <td><input id="productPrice" type="text"></td>
+                    <td><select id="productCategory" class="productCategory"></select></td>
+                    <td id="sum" class="sum"></td>
+                    <td><button id="deleteNewBill" >DELETE</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row" >
+            &nbsp;
+            Total Price: <label type="text" id="totalPrice"></label> &nbsp;
+            Shop Name: <select id="shopName" class="shopName"></select> &nbsp;
+            Date: <input type="text" id="datepicker">
+        </div>
+        <br>
+        <div class="row"></div>
+             &nbsp;
+            <button id="addRow">Add Purchase</button>
+            <button type="submit" id="saveBill">Save</button>
+         </div>
+         <div>
+             <label type='text' id="result">in process</label>
+         </div>
+    </div>
+</div>
+
+<script src="../js/billForm.js"></script>
+</body>
+
+</html>
