@@ -2,7 +2,6 @@ package com.whereIsMyMoney.service;
 
 import com.whereIsMyMoney.dao.CategoryDao;
 import com.whereIsMyMoney.model.Category;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    @Autowired
-    CategoryDao categoryDao;
+    private final CategoryDao categoryDao;
+
+    public CategoryService(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
+    }
 
     public List<Category> getAll(){
         return categoryDao.findAll();
@@ -35,10 +37,10 @@ public class CategoryService {
     }
     public void delete(int id){
 //        onDeleteSetMessage(getOne(id));
-        categoryDao.delete(id);
+        categoryDao.deleteById(id);
     }
     public boolean exists(int id){
-        return categoryDao.exists(id);
+        return categoryDao.existsById(id);
     }
     
     private void onDeleteSetMessage(Category theCategory){

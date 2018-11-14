@@ -5,7 +5,6 @@ import com.whereIsMyMoney.dao.ProductDao;
 import com.whereIsMyMoney.exception.DataNotFoundException;
 import com.whereIsMyMoney.model.Category;
 import com.whereIsMyMoney.model.Product;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +12,13 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    @Autowired
-    ProductDao productDao;
+    private final ProductDao productDao;
+    private final CategoryDao categoryDao;
 
-    @Autowired
-    CategoryDao categoryDao;
+    public ProductService(ProductDao productDao, CategoryDao categoryDao) {
+        this.productDao = productDao;
+        this.categoryDao = categoryDao;
+    }
 
     public List<Product> getAll(){
         return productDao.findAll();
@@ -57,10 +58,10 @@ public class ProductService {
         productDao.delete(theProduct);
     }
     public void delete(int id){
-        productDao.delete(id);
+        productDao.deleteById(id);
     }
     public boolean exists(int id){
-        return productDao.exists(id);
+        return productDao.existsById(id);
     }
 
     private void setCategoryToProduct(Product theProduct){

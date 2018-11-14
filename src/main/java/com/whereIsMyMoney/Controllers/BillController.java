@@ -8,7 +8,6 @@ import com.whereIsMyMoney.model.PurchasesWrapper;
 import com.whereIsMyMoney.service.BillService;
 import com.whereIsMyMoney.service.PurchaseService;
 import com.whereIsMyMoney.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -20,16 +19,14 @@ import java.util.List;
 @RestController
 public class BillController {
 
-    @Autowired
-    private BillService billService;
+    private final BillService billService;
+    private final UserService userService;
+    private final PurchaseService purchaseService;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private PurchaseService purchaseService;
-
-    public BillController() {
+    public BillController(BillService billService, UserService userService, PurchaseService purchaseService) {
+        this.billService = billService;
+        this.userService = userService;
+        this.purchaseService = purchaseService;
     }
 
     @GetMapping("/bills")

@@ -1,5 +1,47 @@
-.idea
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+######################
+# STS
+######################
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+######################
+# Intellij
+######################
+.idea/
 *.iml
 *.iws
-target/
+*.ipr
+*.ids
+*.orig
 
+######################
+# NetBeans
+######################
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+######################
+# Maven
+######################
+/log/
+/target/
+
+######################
+# Package Files
+######################
+*.jar
+*.war
+*.ear
+*.db

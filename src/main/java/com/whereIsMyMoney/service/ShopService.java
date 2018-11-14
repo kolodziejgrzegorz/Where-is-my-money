@@ -2,15 +2,18 @@ package com.whereIsMyMoney.service;
 
 import com.whereIsMyMoney.dao.ShopDao;
 import com.whereIsMyMoney.model.Shop;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ShopService {
-    @Autowired
-    private ShopDao shopDao;
+
+    private final ShopDao shopDao;
+
+    public ShopService(ShopDao shopDao) {
+        this.shopDao = shopDao;
+    }
 
     public List<Shop> getAll(){
         return shopDao.findAll();
@@ -34,10 +37,10 @@ public class ShopService {
     }
     public void delete(int id){
         //onDeleteSetMessage(shopDao.findOne(id));
-        shopDao.delete(id);
+        shopDao.deleteById(id);
     }
     public boolean exists(int id){
-        return shopDao.exists(id);
+        return shopDao.existsById(id);
     }
 
     private void onDeleteSetMessage(Shop theShop){

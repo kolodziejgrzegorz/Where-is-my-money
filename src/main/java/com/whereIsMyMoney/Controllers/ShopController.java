@@ -4,7 +4,6 @@ import com.whereIsMyMoney.exception.DataExistsException;
 import com.whereIsMyMoney.exception.DataNotFoundException;
 import com.whereIsMyMoney.model.Shop;
 import com.whereIsMyMoney.service.ShopService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +13,11 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
 public class ShopController {
-    @Autowired
-    private ShopService shopService;
 
-    public ShopController() {
+    private final ShopService shopService;
+
+    public ShopController(ShopService shopService) {
+        this.shopService = shopService;
     }
 
     @GetMapping("/shops")

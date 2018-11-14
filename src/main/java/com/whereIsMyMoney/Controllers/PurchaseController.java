@@ -5,7 +5,6 @@ import com.whereIsMyMoney.exception.DataNotFoundException;
 import com.whereIsMyMoney.model.Bill;
 import com.whereIsMyMoney.model.Purchase;
 import com.whereIsMyMoney.service.PurchaseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +15,12 @@ import java.util.List;
 @RestController
 public class PurchaseController {
 
-    @Autowired
-    private PurchaseService purchaseService;
+    private final PurchaseService purchaseService;
+    private final BillController billController;
 
-    @Autowired
-    private BillController billController;
-
-    public PurchaseController() {
-
+    public PurchaseController(PurchaseService purchaseService, BillController billController) {
+        this.purchaseService = purchaseService;
+        this.billController = billController;
     }
 
     @GetMapping("/purchases")

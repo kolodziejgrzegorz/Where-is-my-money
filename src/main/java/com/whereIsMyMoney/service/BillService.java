@@ -9,7 +9,6 @@ import com.whereIsMyMoney.model.Bill;
 import com.whereIsMyMoney.model.Purchase;
 import com.whereIsMyMoney.model.Shop;
 import com.whereIsMyMoney.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,17 +16,17 @@ import java.util.List;
 @Service
 public class BillService {
 
-    @Autowired
-    BillDao billDao;
+    private final BillDao billDao;
+    private final ShopDao shopDao;
+    private final PurchaseDao purchaseDao;
+    private final UserDao userDao;
 
-    @Autowired
-    ShopDao shopDao;
-
-    @Autowired
-    PurchaseDao purchaseDao;
-
-    @Autowired
-    UserDao userDao;
+    public BillService(BillDao billDao, ShopDao shopDao, PurchaseDao purchaseDao, UserDao userDao) {
+        this.billDao = billDao;
+        this.shopDao = shopDao;
+        this.purchaseDao = purchaseDao;
+        this.userDao = userDao;
+    }
 
     public List<Bill> getAll(){
         return billDao.findAll();
@@ -60,10 +59,10 @@ public class BillService {
     }
     public void delete(int id){
         onDeleteAction(getOne(id));
-        billDao.delete(id);
+        billDao.deleteById(id);
     }
     public boolean exists(int id){
-        return billDao.exists(id);
+        return billDao.existsById(id);
     }
 
     private void setShopToBill(Bill theBill){
@@ -83,7 +82,7 @@ public class BillService {
 
     private void onDeleteAction(Bill theBill){
         List<Purchase> purchases = purchaseDao.findByBillId(theBill.getId());
-        purchaseDao.delete(purchases);
+        purchaseDao.deleteAll(purchases);
     }
 
     private int sumCalculator(Bill theBill){

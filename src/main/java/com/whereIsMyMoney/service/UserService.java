@@ -4,18 +4,20 @@ import com.whereIsMyMoney.dao.BillDao;
 import com.whereIsMyMoney.dao.UserDao;
 import com.whereIsMyMoney.model.Bill;
 import com.whereIsMyMoney.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserService {
-    @Autowired
-    UserDao userDao;
 
-    @Autowired
-    BillDao billDao;
+    private final UserDao userDao;
+    private final BillDao billDao;
+
+    public UserService(UserDao userDao, BillDao billDao) {
+        this.userDao = userDao;
+        this.billDao = billDao;
+    }
 
     public List<User> getAll(){
         return userDao.findAll();
@@ -41,14 +43,14 @@ public class UserService {
     }
     public void delete(int id){
         onDeleteAction(getOne(id));
-        userDao.delete(id);
+        userDao.deleteById(id);
     }
     public boolean exists(int id){
-        return userDao.exists(id);
+        return userDao.existsById(id);
     }
 
     private void onDeleteAction(User theUser){
         List<Bill> bills = billDao.findByUserName(theUser.getName());
-        billDao.delete(bills);
+        billDao.deleteAll(bills);
     }
 }

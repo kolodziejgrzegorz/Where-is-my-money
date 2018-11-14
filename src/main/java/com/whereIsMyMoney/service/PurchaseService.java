@@ -3,18 +3,20 @@ package com.whereIsMyMoney.service;
 import com.whereIsMyMoney.dao.PurchaseDao;
 import com.whereIsMyMoney.model.Product;
 import com.whereIsMyMoney.model.Purchase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class PurchaseService {
-    @Autowired
-    PurchaseDao purchaseDao;
 
-    @Autowired
-    ProductService productService;
+    private final PurchaseDao purchaseDao;
+    private final ProductService productService;
+
+    public PurchaseService(PurchaseDao purchaseDao, ProductService productService) {
+        this.purchaseDao = purchaseDao;
+        this.productService = productService;
+    }
 
     public List<Purchase> getAll(){
         return purchaseDao.findAll();
@@ -44,10 +46,10 @@ public class PurchaseService {
         purchaseDao.delete(thePurchase);
     }
     public void delete(int id){
-        purchaseDao.delete(id);
+        purchaseDao.deleteById(id);
     }
     public boolean exists(int id){
-        return purchaseDao.exists(id);
+        return purchaseDao.existsById(id);
     }
 
     private void setProductToPurchase(Purchase thePurchase){
