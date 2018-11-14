@@ -3,7 +3,6 @@ package com.whereIsMyMoney.Controllers;
 import com.whereIsMyMoney.exception.DataNotFoundException;
 import com.whereIsMyMoney.model.Category;
 import com.whereIsMyMoney.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +12,11 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
 public class CategoryController {
-    @Autowired
-    private CategoryService categoryService;
 
-    public CategoryController() {
+    private final CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/categories")
