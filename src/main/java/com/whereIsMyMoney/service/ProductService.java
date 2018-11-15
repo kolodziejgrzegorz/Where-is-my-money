@@ -2,9 +2,9 @@ package com.whereIsMyMoney.service;
 
 import com.whereIsMyMoney.dao.CategoryDao;
 import com.whereIsMyMoney.dao.ProductDao;
+import com.whereIsMyMoney.domain.Category;
+import com.whereIsMyMoney.domain.Product;
 import com.whereIsMyMoney.exception.DataNotFoundException;
-import com.whereIsMyMoney.model.Category;
-import com.whereIsMyMoney.model.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

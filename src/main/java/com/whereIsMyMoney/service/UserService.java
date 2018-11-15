@@ -2,8 +2,8 @@ package com.whereIsMyMoney.service;
 
 import com.whereIsMyMoney.dao.BillDao;
 import com.whereIsMyMoney.dao.UserDao;
-import com.whereIsMyMoney.model.Bill;
-import com.whereIsMyMoney.model.User;
+import com.whereIsMyMoney.domain.Bill;
+import com.whereIsMyMoney.domain.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,13 +23,15 @@ public class UserService {
         return userDao.findAll();
     }
 
-    public User getOne(int id){
+    public User findById(int id){
         return userDao.getOne(id);
     }
 
-    public User getOneByName(String name){ return userDao.findByName(name);}
+    public User findByName(String name){
+        return userDao.findByName(name);
+    }
 
-    public User add(User theUser){
+    public User addNew(User theUser){
         return userDao.save(theUser);
     }
 
@@ -42,7 +44,7 @@ public class UserService {
         userDao.delete(theUser);
     }
     public void delete(int id){
-        onDeleteAction(getOne(id));
+        onDeleteAction(findById(id));
         userDao.deleteById(id);
     }
     public boolean exists(int id){

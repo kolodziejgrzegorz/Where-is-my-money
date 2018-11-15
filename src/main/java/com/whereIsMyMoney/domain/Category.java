@@ -1,22 +1,27 @@
-package com.whereIsMyMoney.model;
+package com.whereIsMyMoney.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name="category")
 @JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
-public class Category implements BaseModel{
+public class Category{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
     private int id;
+
     @Column(name="name", nullable = false)
     private String name;
 
@@ -24,37 +29,7 @@ public class Category implements BaseModel{
     @OneToMany(mappedBy = "category", fetch=FetchType.EAGER)
     private List<Product> products = new ArrayList<>();
 
-    public Category() {
-    }
-
-    public Category(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
+    public Category() {}
 
     @Override
     public boolean equals(Object o) {
@@ -66,7 +41,6 @@ public class Category implements BaseModel{
 
     @Override
     public int hashCode() {
-
         return Objects.hash(name);
     }
 

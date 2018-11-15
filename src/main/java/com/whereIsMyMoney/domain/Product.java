@@ -1,17 +1,21 @@
-package com.whereIsMyMoney.model;
+package com.whereIsMyMoney.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name="product")
 @JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
-public class Product  implements BaseModel{
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,32 +43,6 @@ public class Product  implements BaseModel{
         this.category = category;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-
-
     @Override
     public String toString() {
         return name;
@@ -80,7 +58,6 @@ public class Product  implements BaseModel{
 
     @Override
     public int hashCode() {
-
         return Objects.hash(name);
     }
 }

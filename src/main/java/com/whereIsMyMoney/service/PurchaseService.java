@@ -1,8 +1,8 @@
 package com.whereIsMyMoney.service;
 
 import com.whereIsMyMoney.dao.PurchaseDao;
-import com.whereIsMyMoney.model.Product;
-import com.whereIsMyMoney.model.Purchase;
+import com.whereIsMyMoney.domain.Product;
+import com.whereIsMyMoney.domain.Purchase;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class PurchaseService {
         return purchaseDao.findAll();
     }
 
-    public Purchase getOne(int id){
+    public Purchase findById(int id){
         return purchaseDao.getOne(id);
     }
 
@@ -42,12 +42,17 @@ public class PurchaseService {
         return purchaseDao.save(thePurchase);
     }
 
+
     public void delete(Purchase thePurchase){
         purchaseDao.delete(thePurchase);
+    }
+    public void delete(List<Purchase> purchases){
+        purchaseDao.deleteAll(purchases);
     }
     public void delete(int id){
         purchaseDao.deleteById(id);
     }
+
     public boolean exists(int id){
         return purchaseDao.existsById(id);
     }

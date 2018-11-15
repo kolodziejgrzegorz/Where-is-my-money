@@ -1,6 +1,6 @@
 package com.whereIsMyMoney.dao;
 
-import com.whereIsMyMoney.model.User;
+import com.whereIsMyMoney.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserDao extends JpaRepository<User, Integer> {

@@ -1,7 +1,7 @@
 package com.whereIsMyMoney.Controllers;
 
+import com.whereIsMyMoney.domain.User;
 import com.whereIsMyMoney.exception.DataNotFoundException;
-import com.whereIsMyMoney.model.User;
 import com.whereIsMyMoney.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public User getUser(@PathVariable("id") int id) {
         userExist(id);
-        return userService.getOne(id);
+        return userService.findById(id);
     }
 
     @PostMapping("/users")
@@ -41,7 +41,7 @@ public class UserController {
         if(userService.exists(theUser.getId())) {
             throw new  DataNotFoundException("User with Id = " + theUser.getId() + " already exists ");
         }
-        return userService.add(theUser);
+        return userService.addNew(theUser);
     }
 
     @PutMapping( "/users/{id}" )

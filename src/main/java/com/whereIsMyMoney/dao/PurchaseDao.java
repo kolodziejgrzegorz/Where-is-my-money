@@ -1,6 +1,6 @@
 package com.whereIsMyMoney.dao;
 
-import com.whereIsMyMoney.model.Purchase;
+import com.whereIsMyMoney.domain.Purchase;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -12,10 +12,11 @@
 This app was created to learn how jQuerry client can display information get from REST endpoints. In server side application can execute CRUD operations on data in MySQL database and response in JSON. Client can send http request and get/post/update or delete data.
 
 ## Technologies
-*Java 1.8
-*Spring Boot 1.5.9
-*MySql server 5.7
-*jQuery 3.3.1
+* Java 1.8
+* Spring Boot 2.0.5.RELEASE
+* MySql server 5.7
+* jQuery 3.3.1
+* Project Lombok 1.16.20
 
 ## Setup
 1. Clone github repository <br />
@@ -28,8 +29,8 @@ This app was created to learn how jQuerry client can display information get fro
 
 To-do list:
 * Tests
-* bootstrap data
-* sql scripts
+* Bootstrap data
+* Sql scripts
 
 ## Status
 Project is: _in progress_

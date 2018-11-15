@@ -1,7 +1,7 @@
 package com.whereIsMyMoney.service;
 
 import com.whereIsMyMoney.dao.CategoryDao;
-import com.whereIsMyMoney.model.Category;
+import com.whereIsMyMoney.domain.Category;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class CategoryService {
         categoryDao.delete(theCategory);
     }
     public void delete(int id){
-//        onDeleteSetMessage(getOne(id));
+//        onDeleteSetMessage(findById(id));
         categoryDao.deleteById(id);
     }
     public boolean exists(int id){

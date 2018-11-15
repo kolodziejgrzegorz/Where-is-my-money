@@ -1,8 +1,8 @@
 package com.whereIsMyMoney.Controllers;
 
+import com.whereIsMyMoney.domain.Shop;
 import com.whereIsMyMoney.exception.DataExistsException;
 import com.whereIsMyMoney.exception.DataNotFoundException;
-import com.whereIsMyMoney.model.Shop;
 import com.whereIsMyMoney.service.ShopService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,7 +34,7 @@ public class ShopController {
     @ResponseStatus(HttpStatus.OK)
     public Shop getShop(@PathVariable("id") int id) {
         shopExist(id);
-        return shopService.getOne(id);
+        return shopService.findById(id);
     }
 
     @RequestMapping( value = "/shops", method = RequestMethod.POST)
@@ -43,7 +43,7 @@ public class ShopController {
         if(shopService.exists(theShop.getId())) {
             throw new DataExistsException("Shop with id '" + theShop.getId() + "' already exists");
         }
-        return shopService.add(theShop);
+        return shopService.addNew(theShop);
     }
 
     @PutMapping( "/shops/{id}")

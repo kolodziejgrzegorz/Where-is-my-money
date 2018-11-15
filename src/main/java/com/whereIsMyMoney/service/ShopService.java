@@ -1,7 +1,7 @@
 package com.whereIsMyMoney.service;
 
 import com.whereIsMyMoney.dao.ShopDao;
-import com.whereIsMyMoney.model.Shop;
+import com.whereIsMyMoney.domain.Shop;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +19,15 @@ public class ShopService {
         return shopDao.findAll();
     }
 
-    public Shop getOne(int id){
+    public Shop findById(int id){
         return shopDao.getOne(id);
     }
 
-    public Shop add(Shop theShop){
+    public Shop findByName(String name){
+        return shopDao.findByName(name);
+    }
+
+    public Shop addNew(Shop theShop){
         return shopDao.save(theShop);
     }
 

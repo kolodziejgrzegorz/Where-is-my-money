@@ -1,8 +1,8 @@
 package com.whereIsMyMoney.Controllers;
 
+import com.whereIsMyMoney.domain.Product;
 import com.whereIsMyMoney.exception.DataExistsException;
 import com.whereIsMyMoney.exception.DataNotFoundException;
-import com.whereIsMyMoney.model.Product;
 import com.whereIsMyMoney.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

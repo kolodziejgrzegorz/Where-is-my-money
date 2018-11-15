@@ -1,9 +1,9 @@
 package com.whereIsMyMoney.Controllers;
 
+import com.whereIsMyMoney.domain.Bill;
+import com.whereIsMyMoney.domain.Purchase;
 import com.whereIsMyMoney.exception.DataExistsException;
 import com.whereIsMyMoney.exception.DataNotFoundException;
-import com.whereIsMyMoney.model.Bill;
-import com.whereIsMyMoney.model.Purchase;
 import com.whereIsMyMoney.service.PurchaseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -48,7 +48,7 @@ public class PurchaseController {
     @ResponseStatus(HttpStatus.OK)
     public Purchase getPurchase(@PathVariable("id") int id) {
         purchaseExist(id);
-        return purchaseService.getOne(id);
+        return purchaseService.findById(id);
     }
 
     @PostMapping("/bills/{billId}/purchases")
