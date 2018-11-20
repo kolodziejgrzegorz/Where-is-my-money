@@ -19,7 +19,7 @@ public class ShopService {
         return shopDao.findAll();
     }
 
-    public Shop findById(int id){
+    public Shop findById(Long id){
         return shopDao.getOne(id);
     }
 
@@ -39,11 +39,11 @@ public class ShopService {
         //onDeleteSetMessage(theShop);
         shopDao.delete(theShop);
     }
-    public void delete(int id){
+    public void delete(Long id){
         //onDeleteSetMessage(shopDao.findOne(id));
         shopDao.deleteById(id);
     }
-    public boolean exists(int id){
+    public boolean exists(Long id){
         return shopDao.existsById(id);
     }
 

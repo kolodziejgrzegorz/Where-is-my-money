@@ -1,14 +1,11 @@
 package com.whereIsMyMoney.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,38 +13,34 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name="bill")
-@JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
 public class Bill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
-    private int id;
+    private Long id;
 
     @Column(name = "date", nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "sum", nullable = false)
-    private double sum = -1;
+    private Double sum = -1.0;
 
     @ManyToOne
     @JoinColumn(name="shop_id", nullable=false)
     private Shop shop;
 
-    //@JsonIgnore
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL)
     private List<Purchase> purchases = new ArrayList<>();
 
     public Bill() {
     }
 
-    public Bill(Date date, int sum, Shop shop, User user) {
+    public Bill(LocalDate date, Double sum, Shop shop, User user) {
         this.date = date;
         this.sum = sum;
         this.shop = shop;

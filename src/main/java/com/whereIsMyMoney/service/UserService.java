@@ -23,7 +23,7 @@ public class UserService {
         return userDao.findAll();
     }
 
-    public User findById(int id){
+    public User findById(Long id){
         return userDao.getOne(id);
     }
 
@@ -43,11 +43,11 @@ public class UserService {
         onDeleteAction(theUser);
         userDao.delete(theUser);
     }
-    public void delete(int id){
+    public void delete(Long id){
         onDeleteAction(findById(id));
         userDao.deleteById(id);
     }
-    public boolean exists(int id){
+    public boolean exists(Long id){
         return userDao.existsById(id);
     }
 

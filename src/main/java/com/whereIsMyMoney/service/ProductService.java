@@ -24,7 +24,7 @@ public class ProductService {
         return productDao.findAll();
     }
 
-    public Product getOne(int id){
+    public Product getOne(Long id){
         Product theProduct = productDao.getOne(id);
         if(theProduct != null) {
             setCategoryToProduct(theProduct);
@@ -57,10 +57,10 @@ public class ProductService {
     public void delete(Product theProduct){
         productDao.delete(theProduct);
     }
-    public void delete(int id){
+    public void delete(Long id){
         productDao.deleteById(id);
     }
-    public boolean exists(int id){
+    public boolean exists(Long id){
         return productDao.existsById(id);
     }
 

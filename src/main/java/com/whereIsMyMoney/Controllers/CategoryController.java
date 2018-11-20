@@ -1,6 +1,7 @@
 package com.whereIsMyMoney.Controllers;
 
 import com.whereIsMyMoney.domain.Category;
+import com.whereIsMyMoney.exception.DataExistsException;
 import com.whereIsMyMoney.exception.DataNotFoundException;
 import com.whereIsMyMoney.service.CategoryService;
 import org.springframework.http.HttpStatus;
@@ -31,8 +32,8 @@ public class CategoryController {
 
     @GetMapping(value = "/categories/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Category getCategory(@PathVariable("id") int id) {
-        categoryExist(id);
+    public Category getCategory(@PathVariable("id") Long id) {
+        categoryService.exists(id);
         return categoryService.getOne(id);
     }
 
@@ -40,7 +41,7 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.CREATED)
     public Category add(@RequestBody Category theCategory) {
         if(categoryService.exists(theCategory.getId())) {
-            throw new  DataNotFoundException("Category with Id = " + theCategory.getId() + " already exists");
+            throw new DataExistsException("Category with Id = " + theCategory.getId() + " already exists");
         }
        return categoryService.add(theCategory);
     }
@@ -48,20 +49,14 @@ public class CategoryController {
     @PutMapping( "/categories/{id}" )
     @ResponseStatus(HttpStatus.OK)
     public Category updateCategory(@RequestBody Category theCategory) {
-        categoryExist(theCategory.getId());
+        categoryService.exists(theCategory.getId());
         return categoryService.update(theCategory);
     }
 
     @DeleteMapping("/categories/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteCategory(@PathVariable("id") int id) {
-        categoryExist(id);
+    public void deleteCategory(@PathVariable("id") Long id) {
+        categoryService.exists(id);
         categoryService.delete(id);
     }
-    private void categoryExist(int id){
-        if(!categoryService.exists(id)) {
-            throw new  DataNotFoundException("Category with Id = " + id + " not found ");
-        }
-    }
-
 }

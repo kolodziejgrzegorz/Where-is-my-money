@@ -1,7 +1,5 @@
 package com.whereIsMyMoney.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,21 +12,24 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name="shop")
-@JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
 public class Shop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
-    private int id;
+    private Long id;
+
     @Column(name="name", nullable = false)
     private String name;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "shop")
     private List<Bill> bills = new ArrayList<>();
 
     public Shop() {
+    }
+
+    public Shop(String name) {
+        this.name = name;
     }
 
     @Override

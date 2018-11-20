@@ -5,7 +5,6 @@ import com.whereIsMyMoney.domain.Purchase;
 import com.whereIsMyMoney.domain.PurchasesList;
 import com.whereIsMyMoney.service.BillService;
 import com.whereIsMyMoney.service.PurchaseService;
-import com.whereIsMyMoney.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +16,10 @@ import java.util.List;
 public class BillController {
 
     private final BillService billService;
-    private final UserService userService;
     private final PurchaseService purchaseService;
 
-    public BillController(BillService billService, UserService userService, PurchaseService purchaseService) {
+    public BillController(BillService billService, PurchaseService purchaseService) {
         this.billService = billService;
-        this.userService = userService;
         this.purchaseService = purchaseService;
     }
 
@@ -43,7 +40,7 @@ public class BillController {
 //    }
 
     @GetMapping(value = "/bills/{id}")
-    public Bill getBill(@PathVariable int id ) {
+    public Bill getBill(@PathVariable Long id ) {
         return billService.getOne(id);
     }
 
@@ -53,8 +50,8 @@ public class BillController {
         return billService.addNew(theBill);
     }
 
-    @PostMapping( value = "/bills/purchases")
-    public List<String> addPurchasesToBill(@RequestBody PurchasesList purchasesList){
+    @PostMapping( value = "/bills/{id}/purchases")
+    public List<String> addPurchasesToBill(@PathVariable Long id, @RequestBody PurchasesList purchasesList){
         List<String> response = new ArrayList<>();
         for(Purchase purchase: purchasesList.getPurchases() ){
             purchaseService.add(purchase);
@@ -64,12 +61,12 @@ public class BillController {
     }
 
     @PutMapping("/bills/{id}" )
-    public Bill updateBill(@RequestBody Bill theBill, @PathVariable int id) {
+    public Bill updateBill(@RequestBody Bill theBill, @PathVariable Long id) {
         return billService.update(id,theBill);
     }
 
     @DeleteMapping("/bills/{id}")
-    public void deleteBill(@PathVariable("id") int id) {
+    public void deleteBill(@PathVariable("id") Long id) {
         billService.delete(id);
     }
 }

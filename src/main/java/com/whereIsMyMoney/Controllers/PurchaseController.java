@@ -35,7 +35,7 @@ public class PurchaseController {
 
     @GetMapping("/bills/{billId}/purchases")
     @ResponseStatus(HttpStatus.OK)
-    public List<Purchase> getBillPurchases(@PathVariable int billId) {
+    public List<Purchase> getBillPurchases(@PathVariable Long billId) {
         Bill bill = billController.getBill(billId);
         List<Purchase> purchases = purchaseService.getByBillId(billId);
         if(purchases==null) {
@@ -46,14 +46,14 @@ public class PurchaseController {
 
     @GetMapping(value = "/purchases/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Purchase getPurchase(@PathVariable("id") int id) {
+    public Purchase getPurchase(@PathVariable("id") Long id) {
         purchaseExist(id);
         return purchaseService.findById(id);
     }
 
     @PostMapping("/bills/{billId}/purchases")
     @ResponseStatus(HttpStatus.CREATED)
-    public Purchase add(@PathVariable int billId, @RequestBody Purchase thePurchase) {
+    public Purchase add(@PathVariable Long billId, @RequestBody Purchase thePurchase) {
         if(purchaseService.exists(thePurchase.getId())) {
             throw new DataExistsException("Purchase with id '" + thePurchase.getId() + "' already exists");
         }
@@ -71,12 +71,12 @@ public class PurchaseController {
 
     @DeleteMapping("/purchases/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deletePurchase( @PathVariable("id") int id ) {
+    public void deletePurchase( @PathVariable("id") Long id ) {
         purchaseExist(id);
         purchaseService.delete(id);
     }
 
-    private void purchaseExist(int id){
+    private void purchaseExist(Long id){
         if(!purchaseService.exists(id)) {
             throw new  DataNotFoundException("Purchase with Id = " + id + " not found ");
         }

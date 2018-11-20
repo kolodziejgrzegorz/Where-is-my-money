@@ -1,6 +1,5 @@
 package com.whereIsMyMoney.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,26 +11,22 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name="purchase")
-@JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
 public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
-    private int id;
+    private Long id;
 
     @Column(name = "product_quantity", nullable = false)
-    private int productQuantity;
+    private Integer productQuantity;
 
     @Column(name = "product_price", nullable = false)
-    private double productPrice;
+    private Double productPrice;
 
     @Column(name = "sum", nullable = false)
-    private double sum;
+    private Double sum;
 
-
-    //@JsonManagedReference
-    @JsonIgnoreProperties({"date", "sum","user","shop","product","purchases" })
     @ManyToOne
     @JoinColumn(name="bill_id", nullable=false)
     private Bill bill;
@@ -43,7 +38,7 @@ public class Purchase {
     public Purchase() {
     }
 
-    public Purchase(int id, int productQuantity, double productPrice, double sum, Bill theBill, String product_name) {
+    public Purchase(Long id, Integer productQuantity, Double productPrice, Double sum, Bill theBill, String product_name) {
         this.id = id;
         this.productQuantity = productQuantity;
         this.productPrice = productPrice;

@@ -22,11 +22,11 @@ public class PurchaseService {
         return purchaseDao.findAll();
     }
 
-    public Purchase findById(int id){
+    public Purchase findById(Long id){
         return purchaseDao.getOne(id);
     }
 
-    public List<Purchase> getByBillId(int id){
+    public List<Purchase> getByBillId(Long id){
         return purchaseDao.findByBillId(id);
     }
 
@@ -49,11 +49,11 @@ public class PurchaseService {
     public void delete(List<Purchase> purchases){
         purchaseDao.deleteAll(purchases);
     }
-    public void delete(int id){
+    public void delete(Long id){
         purchaseDao.deleteById(id);
     }
 
-    public boolean exists(int id){
+    public boolean exists(Long id){
         return purchaseDao.existsById(id);
     }
 

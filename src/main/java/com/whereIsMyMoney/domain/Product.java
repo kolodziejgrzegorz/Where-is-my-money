@@ -1,7 +1,5 @@
 package com.whereIsMyMoney.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,23 +12,20 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name="product")
-@JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
-    private int id;
+    private Long id;
 
     @Column(name="name", nullable = false)
     private String name;
 
     @ManyToOne
     @JoinColumn(name="category_id", nullable = false)
-//    @JsonIgnoreProperties("id")
     private Category category;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<Purchase> purchases = new ArrayList<>();
 

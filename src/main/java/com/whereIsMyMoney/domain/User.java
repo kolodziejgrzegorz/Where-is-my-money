@@ -20,7 +20,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
-    private int id;
+    private Long id;
 
     @Column(name="name", nullable = false)
     private String name;
@@ -33,14 +33,13 @@ public class User {
     @Column(name="password", nullable = false)
     private String password;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Bill> bills = new ArrayList<>();
 
     public User() {
     }
 
-    public User(int id, String name, String email, String password) {
+    public User( String name, String email, String password ) {
         this.name = name;
         this.email = email;
         this.password = password;

@@ -32,7 +32,7 @@ public class ShopController {
 
     @GetMapping(value = "/shops/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Shop getShop(@PathVariable("id") int id) {
+    public Shop getShop(@PathVariable("id") Long id) {
         shopExist(id);
         return shopService.findById(id);
     }
@@ -55,12 +55,12 @@ public class ShopController {
 
     @DeleteMapping("/shops/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteShop(@PathVariable("id") int id) {
+    public void deleteShop(@PathVariable("id") Long id) {
         shopExist(id);
         shopService.delete(id);
     }
 
-    private void shopExist(int id){
+    private void shopExist(Long id){
         if(!shopService.exists(id)) {
             throw new  DataNotFoundException("Shop with Id = " + id + " not found ");
         }

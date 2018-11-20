@@ -123,7 +123,7 @@ $(document).ready(function () {
     })
 
 
-    //Post new bill
+    //Post new bill or update existing
     container.on('click', "#saveBill", function () {
         event.preventDefault();
         var purchaseList = [];

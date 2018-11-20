@@ -35,13 +35,13 @@ public class BillService {
         return bills;
     }
 
-    public Bill getOne(int id){
+    public Bill getOne(Long id){
         exists(id);
         Bill theBill = billDao.getOne(id);
         return theBill;
     }
 
-    public List<Bill> getByUserId(int id){
+    public List<Bill> getByUserId(Long id){
         List<Bill> bills = billDao.findByUserId(id);
         if( bills.isEmpty() ) {
             throw new DataNotFoundException("Bills list not found");
@@ -58,7 +58,7 @@ public class BillService {
         }
     }
 
-    public Bill update(int id, Bill theBill){
+    public Bill update(Long id, Bill theBill){
         exists(id);
         theBill.setId(id);
 //        setUserToBill(theBill);
@@ -71,12 +71,12 @@ public class BillService {
         deletePurchasesByBillId(theBill);
         billDao.delete(theBill);
     }
-    public void delete(int id){
+    public void delete(Long id){
 //      when delete bill delete also all his purchases
         deletePurchasesByBillId(getOne(id));
         billDao.deleteById(id);
     }
-    public boolean exists(int id){
+    public boolean exists(Long id){
         if(!billDao.existsById(id)) {
             throw new  DataNotFoundException("Bill with Id = " + id + " not found ");
         }
@@ -103,8 +103,8 @@ public class BillService {
         purchaseService.delete(purchases);
     }
 
-    private int sumCalculator(Bill theBill){
-        int sum = 0;
+    private Double sumCalculator(Bill theBill){
+        Double sum = 0.0;
         List<Purchase> purchases = purchaseService.getByBillId(theBill.getId());
         for(Purchase p : purchases){
             sum += p.getSum();

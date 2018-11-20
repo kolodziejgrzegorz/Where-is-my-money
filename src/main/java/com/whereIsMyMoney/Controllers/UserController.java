@@ -30,7 +30,7 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public User getUser(@PathVariable("id") int id) {
+    public User getUser(@PathVariable("id") Long id) {
         userExist(id);
         return userService.findById(id);
     }
@@ -53,12 +53,12 @@ public class UserController {
 
     @DeleteMapping( "/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@PathVariable("id") int id) {
+    public void deleteUser(@PathVariable("id") Long id) {
         userExist(id);
         userService.delete(id);
     }
 
-    private void userExist(int id){
+    private void userExist(Long id){
         if(!userService.exists(id)) {
             throw new  DataNotFoundException("User with Id = " + id + " not found ");
         }

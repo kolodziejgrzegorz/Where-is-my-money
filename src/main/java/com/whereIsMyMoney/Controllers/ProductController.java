@@ -32,7 +32,7 @@ public class ProductController {
 
     @GetMapping(value = "/products/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Product getProduct(@PathVariable("id") int id) {
+    public Product getProduct(@PathVariable("id") Long id) {
         if(!productService.exists(id)) {
             throw new  DataNotFoundException("Product with Id = " + id + " not found ");
         }
@@ -59,7 +59,7 @@ public class ProductController {
 
     @DeleteMapping("/products/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteProduct(@PathVariable("id") int id) {
+    public void deleteProduct(@PathVariable("id") Long id) {
         if(!productService.exists(id)) {
             throw new  DataNotFoundException("Product with Id = " + id + " not found ");
         }
