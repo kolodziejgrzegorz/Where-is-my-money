@@ -1,11 +1,8 @@
 package com.whereIsMyMoney.Controllers;
 
-import com.whereIsMyMoney.domain.Shop;
-import com.whereIsMyMoney.exception.DataExistsException;
-import com.whereIsMyMoney.exception.DataNotFoundException;
+import com.whereIsMyMoney.api.model.ShopDto;
 import com.whereIsMyMoney.service.ShopService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,48 +18,29 @@ public class ShopController {
     }
 
     @GetMapping("/shops")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Shop> getAllShops() {
-        List<Shop> shops = shopService.getAll();
-        if(shops==null) {
-            throw new DataNotFoundException("Shops list not found");
-        }
-        return shops;
+    public List<ShopDto> getAllShops() {
+        return shopService.getAll();
     }
 
-    @GetMapping(value = "/shops/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.OK)
-    public Shop getShop(@PathVariable("id") Long id) {
-        shopExist(id);
+    @GetMapping("/shops/{id}")
+    public ShopDto getShop(@PathVariable("id") Long id) {
         return shopService.findById(id);
     }
 
-    @RequestMapping( value = "/shops", method = RequestMethod.POST)
+    @PostMapping("/shops")
     @ResponseStatus(HttpStatus.CREATED)
-    public Shop add(@RequestBody Shop theShop) {
-        if(shopService.exists(theShop.getId())) {
-            throw new DataExistsException("Shop with id '" + theShop.getId() + "' already exists");
-        }
-        return shopService.addNew(theShop);
+    public ShopDto add(@RequestBody ShopDto theShopDto) {
+        return shopService.addNew(theShopDto);
     }
 
     @PutMapping( "/shops/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Shop updateShop(@RequestBody Shop theShop) {
-        shopExist(theShop.getId());
-        return shopService.update(theShop);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ShopDto updateShop(@RequestBody ShopDto theShopDto) {
+        return shopService.update(theShopDto);
     }
 
     @DeleteMapping("/shops/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void deleteShop(@PathVariable("id") Long id) {
-        shopExist(id);
         shopService.delete(id);
-    }
-
-    private void shopExist(Long id){
-        if(!shopService.exists(id)) {
-            throw new  DataNotFoundException("Shop with Id = " + id + " not found ");
-        }
     }
 }

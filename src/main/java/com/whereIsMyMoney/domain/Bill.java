@@ -27,7 +27,7 @@ public class Bill {
     private Double sum = -1.0;
 
     @ManyToOne
-    @JoinColumn(name="shop_id", nullable=false)
+    @JoinColumn(name="shop_id")
     private Shop shop;
 
     @ManyToOne
