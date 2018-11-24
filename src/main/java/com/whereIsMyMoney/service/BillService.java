@@ -47,7 +47,6 @@ public class BillService {
     }
 
     public Bill update(Bill theBill){
-//        setUserToBill(theBill);
         setShopToBill(theBill);
 //        theBill.setSum(sumCalculator(theBill));
         return billDao.save(theBill);
