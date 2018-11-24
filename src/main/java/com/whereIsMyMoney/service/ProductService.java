@@ -1,75 +1,83 @@
 package com.whereIsMyMoney.service;
 
-import com.whereIsMyMoney.dao.CategoryDao;
+import com.whereIsMyMoney.api.mapper.ProductMapper;
+import com.whereIsMyMoney.api.model.ProductDto;
 import com.whereIsMyMoney.dao.ProductDao;
-import com.whereIsMyMoney.domain.Category;
 import com.whereIsMyMoney.domain.Product;
+import com.whereIsMyMoney.exception.DataExistsException;
 import com.whereIsMyMoney.exception.DataNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
 
     private final ProductDao productDao;
-    private final CategoryDao categoryDao;
+    private final ProductMapper productMapper;
 
-    public ProductService(ProductDao productDao, CategoryDao categoryDao) {
+    public ProductService(ProductDao productDao, ProductMapper productMapper) {
         this.productDao = productDao;
-        this.categoryDao = categoryDao;
+        this.productMapper = productMapper;
     }
 
-    public List<Product> getAll(){
-        return productDao.findAll();
-    }
-
-    public Product getOne(Long id){
-        Product theProduct = productDao.getOne(id);
-        if(theProduct != null) {
-            setCategoryToProduct(theProduct);
+    public List<ProductDto> findAll(){
+        List<ProductDto> productDtoList = new ArrayList<>();
+        productDtoList = productDao.findAll()
+                .stream()
+                .map(productMapper::productToProductDto)
+                .collect(Collectors.toList());
+        if(productDtoList.isEmpty()){
+            throw new DataNotFoundException("Products list not found");
         }
-        return theProduct;
+        return productDtoList;
     }
 
-    public Product getOne(String  name){
-        Product theProduct = productDao.findByName(name);
-        if(theProduct != null) {
-            setCategoryToProduct(theProduct);
+    public ProductDto findById(Long id) {
+        Optional<Product> productOptional = productDao.findById(id);
+        if(!productOptional.isPresent()){
+            throw new DataNotFoundException("Not found product with id: " + id);
         }
-        return theProduct;
+        return productMapper.productToProductDto(productOptional.get());
     }
 
-    public Product add(Product theProduct){
-        setCategoryToProduct(theProduct);
-        return productDao.save(theProduct);
+    public ProductDto findByName(String name) {
+        Optional<Product> productOptional = productDao.findByName(name);
+        if(!productOptional.isPresent()){
+            throw new DataNotFoundException("Not found product with name: " + name);
+        }
+        return productMapper.productToProductDto(productOptional.get());
     }
 
-    public Product update(Product theProduct){
-        setCategoryToProduct(theProduct);
-        return productDao.save(theProduct);
+    public ProductDto addNew(ProductDto theProductDto) {
+        Optional<Product> productOptional = productDao.findByName(theProductDto.getName());
+        if(productOptional.isPresent()){
+            throw new DataExistsException("Product with name '" + theProductDto.getName() + "' already exists");
+        }
+        Product savedProduct = productDao.save(productMapper.productDtoToProduct(theProductDto));
+
+        return productMapper.productToProductDto(savedProduct);
     }
 
-    public List<Product> getByNameStartingWith(String name){
-        return productDao.findByNameStartingWith(name);
-    }
+    public ProductDto update(ProductDto theProductDto) {
+        Optional<Product> productOptional = productDao.findByName(theProductDto.getName());
+        if(!productOptional.isPresent()){
+            throw new DataNotFoundException("Not found product with name: " + theProductDto.getName());
+        }
+        Product savedProduct = productDao.save(productMapper.productDtoToProduct(theProductDto));
 
-    public void delete(Product theProduct){
-        productDao.delete(theProduct);
+        return productMapper.productToProductDto(savedProduct);
     }
+        
     public void delete(Long id){
         productDao.deleteById(id);
     }
-    public boolean exists(Long id){
-        return productDao.existsById(id);
-    }
 
-    private void setCategoryToProduct(Product theProduct){
-        String categoryName = theProduct.getCategory().getName();
-        Category category = categoryDao.findByName(categoryName);
-        if(category == null){
-            throw new DataNotFoundException("Category with name: " + categoryName + " not found" );
-        }
-        theProduct.setCategory(category);
+    //todo
+    public List<Product> getByNameStartingWith(String name){
+        return productDao.findByNameStartingWith(name);
     }
 }

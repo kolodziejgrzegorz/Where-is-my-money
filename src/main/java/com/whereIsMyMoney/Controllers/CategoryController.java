@@ -1,8 +1,6 @@
 package com.whereIsMyMoney.Controllers;
 
-import com.whereIsMyMoney.domain.Category;
-import com.whereIsMyMoney.exception.DataExistsException;
-import com.whereIsMyMoney.exception.DataNotFoundException;
+import com.whereIsMyMoney.api.model.CategoryDto;
 import com.whereIsMyMoney.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,41 +20,31 @@ public class CategoryController {
 
     @GetMapping("/categories")
     @ResponseStatus(HttpStatus.OK)
-    public List<Category> getAllCategorys() {
-        List<Category> categories = categoryService.getAll();
-        if(categories==null) {
-            throw new DataNotFoundException("Category list not found");
-        }
-        return categories;
+    public List<CategoryDto> getAllCategories() {
+        return categoryService.findAll();
     }
 
     @GetMapping(value = "/categories/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
-    public Category getCategory(@PathVariable("id") Long id) {
-        categoryService.exists(id);
-        return categoryService.getOne(id);
+    public CategoryDto getCategory(@PathVariable("id") Long id) {
+        return categoryService.findById(id);
     }
 
     @RequestMapping( value = "/categories", method = RequestMethod.POST )
     @ResponseStatus(HttpStatus.CREATED)
-    public Category add(@RequestBody Category theCategory) {
-        if(categoryService.exists(theCategory.getId())) {
-            throw new DataExistsException("Category with Id = " + theCategory.getId() + " already exists");
-        }
-       return categoryService.add(theCategory);
+    public CategoryDto addNew(@RequestBody CategoryDto theCategory) {
+       return categoryService.addNew(theCategory);
     }
 
     @PutMapping( "/categories/{id}" )
     @ResponseStatus(HttpStatus.OK)
-    public Category updateCategory(@RequestBody Category theCategory) {
-        categoryService.exists(theCategory.getId());
+    public CategoryDto updateCategory(@RequestBody CategoryDto theCategory) {
         return categoryService.update(theCategory);
     }
 
     @DeleteMapping("/categories/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteCategory(@PathVariable("id") Long id) {
-        categoryService.exists(id);
         categoryService.delete(id);
     }
 }

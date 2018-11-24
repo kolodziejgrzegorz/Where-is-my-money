@@ -1,13 +1,11 @@
 package com.whereIsMyMoney.Controllers;
 
-import com.whereIsMyMoney.domain.Bill;
-import com.whereIsMyMoney.domain.Purchase;
-import com.whereIsMyMoney.exception.DataExistsException;
-import com.whereIsMyMoney.exception.DataNotFoundException;
+import com.whereIsMyMoney.api.model.PurchaseDto;
 import com.whereIsMyMoney.service.PurchaseService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -16,69 +14,40 @@ import java.util.List;
 public class PurchaseController {
 
     private final PurchaseService purchaseService;
-    private final BillController billController;
 
-    public PurchaseController(PurchaseService purchaseService, BillController billController) {
+    public PurchaseController(PurchaseService purchaseService) {
         this.purchaseService = purchaseService;
-        this.billController = billController;
     }
 
-    @GetMapping("/purchases")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Purchase> getAllPurchases() {
-        List<Purchase> purchases = purchaseService.getAll();
-        if(purchases==null) {
-            throw new DataNotFoundException("Purchases list not found");
-        }
-        return purchases;
+    @GetMapping("/list")
+    public List<PurchaseDto> getAllPurchases() {
+        return purchaseService.findAll();
     }
 
-    @GetMapping("/bills/{billId}/purchases")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Purchase> getBillPurchases(@PathVariable Long billId) {
-        Bill bill = billController.getBill(billId);
-        List<Purchase> purchases = purchaseService.getByBillId(billId);
-        if(purchases==null) {
-            throw new DataNotFoundException("Purchases list not found");
-        }
-        return purchases;
+    @GetMapping("/bills/{billId}/list")
+    public List<PurchaseDto> getBillPurchases(@PathVariable Long billId) {
+        return purchaseService.findByBillId(billId);
     }
 
-    @GetMapping(value = "/purchases/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseStatus(HttpStatus.OK)
-    public Purchase getPurchase(@PathVariable("id") Long id) {
-        purchaseExist(id);
+    @GetMapping("/list/{id}")
+    public PurchaseDto getPurchase(@PathVariable("id") Long id) {
         return purchaseService.findById(id);
     }
+//No need for this methods
 
-    @PostMapping("/bills/{billId}/purchases")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Purchase add(@PathVariable Long billId, @RequestBody Purchase thePurchase) {
-        if(purchaseService.exists(thePurchase.getId())) {
-            throw new DataExistsException("Purchase with id '" + thePurchase.getId() + "' already exists");
-        }
-        Bill bill = billController.getBill(billId);
-        thePurchase.setBill(bill);
-        return purchaseService.add(thePurchase);
-    }
-
-    @PutMapping("/purchases/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Purchase updatePurchase( @RequestBody Purchase thePurchase ) {
-        purchaseExist(thePurchase.getId());
-        return purchaseService.update(thePurchase);
-    }
-
-    @DeleteMapping("/purchases/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deletePurchase( @PathVariable("id") Long id ) {
-        purchaseExist(id);
-        purchaseService.delete(id);
-    }
-
-    private void purchaseExist(Long id){
-        if(!purchaseService.exists(id)) {
-            throw new  DataNotFoundException("Purchase with Id = " + id + " not found ");
-        }
-    }
+//    @PostMapping("/bills/{billId}/list")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public PurchaseDto addNew(@PathVariable Long billId, @RequestBody PurchaseDto thePurchaseDto) {
+//        return purchaseService.addNew(billId, thePurchaseDto);
+//    }
+//
+//    @PutMapping("/bills/{billId}/list")
+//    public PurchaseDto updatePurchase(@PathVariable Long billId, @RequestBody PurchaseDto thePurchaseDto) {
+//        return purchaseService.update(billId, thePurchaseDto);
+//    }
+//
+//    @DeleteMapping("/list/{id}")
+//    public void deletePurchase( @PathVariable("id") Long id ) {
+//        purchaseService.delete(id);
+//    }
 }

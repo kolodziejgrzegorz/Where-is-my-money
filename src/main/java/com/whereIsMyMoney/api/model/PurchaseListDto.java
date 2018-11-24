@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PurchasesListDto {
-    private List<PurchaseDto> purchaseDtoList;
+public class PurchaseListDto {
+    private List<PurchaseDto> list;
 }

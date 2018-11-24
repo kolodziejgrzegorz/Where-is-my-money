@@ -7,8 +7,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PurchasesList {
+public class PurchaseList {
 
-    private List<Purchase> purchases;
+    private List<Purchase> list;
 
 }

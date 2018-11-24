@@ -11,9 +11,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class BillDto {
 
-    private Long id;
     private LocalDate date;
     private String shopName;
     private Double sum;
     private Long userId;
+    private PurchaseListDto purchaseListDto;
+
 }

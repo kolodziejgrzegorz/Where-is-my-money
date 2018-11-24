@@ -19,7 +19,7 @@ public class ShopController {
 
     @GetMapping("/shops")
     public List<ShopDto> getAllShops() {
-        return shopService.getAll();
+        return shopService.findAll();
     }
 
     @GetMapping("/shops/{id}")
@@ -29,7 +29,7 @@ public class ShopController {
 
     @PostMapping("/shops")
     @ResponseStatus(HttpStatus.CREATED)
-    public ShopDto add(@RequestBody ShopDto theShopDto) {
+    public ShopDto addNew(@RequestBody ShopDto theShopDto) {
         return shopService.addNew(theShopDto);
     }
 

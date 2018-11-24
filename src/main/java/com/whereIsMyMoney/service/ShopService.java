@@ -24,16 +24,16 @@ public class ShopService {
         this.shopMapper = shopMapper;
     }
 
-    public List<ShopDto> getAll() {
-        List<ShopDto> shopList = new ArrayList<>();
+    public List<ShopDto> findAll() {
+        List<ShopDto> shopListDto = new ArrayList<>();
 
-        shopList = shopDao.findAll().stream()
+        shopListDto = shopDao.findAll().stream()
                 .map(shopMapper::shopToShopDto)
                 .collect(Collectors.toList());
-        if(shopList.isEmpty()){
+        if(shopListDto.isEmpty()){
             throw new DataNotFoundException("Shops list not found");
         }
-        return shopList;
+        return shopListDto;
     }
 
     public ShopDto findById(Long id) {
@@ -41,6 +41,7 @@ public class ShopService {
         if(!shopOptional.isPresent()){
             throw new DataNotFoundException("Not found shop with id: " + id);
         }
+        shopDao.getOne(id);
         return shopMapper.shopToShopDto(shopOptional.get());
     }
 
@@ -72,15 +73,7 @@ public class ShopService {
         return shopMapper.shopToShopDto(savedShop);
     }
 
-    public void delete(Shop theShop) {
-        shopDao.delete(theShop);
-    }
-
     public void delete(Long id) {
         shopDao.deleteById(id);
-    }
-
-    public boolean exists(Long id) {
-        return shopDao.existsById(id);
     }
 }

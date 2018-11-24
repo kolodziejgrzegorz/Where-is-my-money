@@ -1,14 +1,12 @@
 package com.whereIsMyMoney.Controllers;
 
-import com.whereIsMyMoney.domain.Bill;
-import com.whereIsMyMoney.domain.Purchase;
-import com.whereIsMyMoney.domain.PurchasesList;
+import com.whereIsMyMoney.api.mapper.BillMapper;
+import com.whereIsMyMoney.api.model.BillDto;
 import com.whereIsMyMoney.service.BillService;
 import com.whereIsMyMoney.service.PurchaseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -17,52 +15,45 @@ public class BillController {
 
     private final BillService billService;
     private final PurchaseService purchaseService;
+    private final BillMapper billMapper;
 
-    public BillController(BillService billService, PurchaseService purchaseService) {
+    public BillController(BillService billService, PurchaseService purchaseService, BillMapper billMapper) {
         this.billService = billService;
         this.purchaseService = purchaseService;
+        this.billMapper = billMapper;
     }
 
     @GetMapping("/bills")
-    public List<Bill> getAllBills() {
-         return billService.getAll();
+    public List<BillDto> getAllBills() {
+         return billService.findAll();
     }
 
-//    @GetMapping("/users/{userId}/bills")
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<Bill> getUserBills(@PathVariable int userId ) {
-//        userExist(userId);
-//        List<Bill> bills = billService.getByUserId(userId);
-//        if(bills == null || bills.isEmpty()) {
-//            throw new DataNotFoundException("Bills list not found");
+    @GetMapping("/bills/{id}")
+    public BillDto getBill(@PathVariable Long id ) {
+        return billService.findById(id);
+    }
+
+    @PostMapping("/bills")
+    @ResponseStatus(HttpStatus.CREATED)
+    public BillDto addNew(@RequestBody BillDto theBillDto) {
+        return billService.addNew(theBillDto);
+    }
+//logic move to billService
+//    @PostMapping("/bills/{id}/list")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public List<String> addPurchasesToBill(@PathVariable Long id, @RequestBody PurchaseList purchaseList){
+//        List<String> response = new ArrayList<>();
+//        for(Purchase purchase: purchaseList.getList() ){
+//            purchaseService.add(purchase);
+//            response.add(purchase.toString());
 //        }
-//        return bills;
+//        return response;
 //    }
 
-    @GetMapping(value = "/bills/{id}")
-    public Bill getBill(@PathVariable Long id ) {
-        return billService.getOne(id);
-    }
-
-    @PostMapping( value = "/bills")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Bill addNew(@RequestBody Bill theBill) {
-        return billService.addNew(theBill);
-    }
-
-    @PostMapping( value = "/bills/{id}/purchases")
-    public List<String> addPurchasesToBill(@PathVariable Long id, @RequestBody PurchasesList purchasesList){
-        List<String> response = new ArrayList<>();
-        for(Purchase purchase: purchasesList.getPurchases() ){
-            purchaseService.add(purchase);
-            response.add(purchase.toString());
-        }
-        return response;
-    }
-
     @PutMapping("/bills/{id}" )
-    public Bill updateBill(@RequestBody Bill theBill, @PathVariable Long id) {
-        return billService.update(id,theBill);
+    @ResponseStatus(HttpStatus.CREATED)
+    public BillDto updateBill(@RequestBody BillDto theBillDto, @PathVariable Long id) {
+        return billService.update(id ,theBillDto);
     }
 
     @DeleteMapping("/bills/{id}")

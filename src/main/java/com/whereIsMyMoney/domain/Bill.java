@@ -34,7 +34,7 @@ public class Bill {
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
-    @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bill", cascade = CascadeType.PERSIST)
     private List<Purchase> purchases = new ArrayList<>();
 
     public Bill() {
@@ -55,7 +55,7 @@ public class Bill {
                 ", sum = " + sum +
                 ", shop = " + shop.getName() +
                 ", user = " + user.getName() +
-                ", purchases" + purchases +
+                ", list" + purchases +
                 '}';
     }
 

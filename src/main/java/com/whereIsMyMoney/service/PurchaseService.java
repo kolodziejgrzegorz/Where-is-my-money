@@ -1,70 +1,86 @@
 package com.whereIsMyMoney.service;
 
+import com.whereIsMyMoney.api.mapper.PurchaseMapper;
+import com.whereIsMyMoney.api.model.PurchaseDto;
 import com.whereIsMyMoney.dao.PurchaseDao;
-import com.whereIsMyMoney.domain.Product;
 import com.whereIsMyMoney.domain.Purchase;
+import com.whereIsMyMoney.exception.DataNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PurchaseService {
 
     private final PurchaseDao purchaseDao;
-    private final ProductService productService;
+    private final PurchaseMapper purchaseMapper;
 
-    public PurchaseService(PurchaseDao purchaseDao, ProductService productService) {
+    public PurchaseService(PurchaseDao purchaseDao, PurchaseMapper purchaseMapper) {
         this.purchaseDao = purchaseDao;
-        this.productService = productService;
+        this.purchaseMapper = purchaseMapper;
     }
 
-    public List<Purchase> getAll(){
-        return purchaseDao.findAll();
-    }
+    public List<PurchaseDto> findAll() {
+        List<PurchaseDto> purchaseListDto = new ArrayList<>();
 
-    public Purchase findById(Long id){
-        return purchaseDao.getOne(id);
-    }
-
-    public List<Purchase> getByBillId(Long id){
-        return purchaseDao.findByBillId(id);
-    }
-
-    public Purchase add(Purchase thePurchase){
-        setProductToPurchase(thePurchase);
-        thePurchase.setSum( thePurchase.getProductQuantity()*thePurchase.getProductPrice() );
-        return purchaseDao.save(thePurchase);
-    }
-
-    public Purchase update(Purchase thePurchase){
-        setProductToPurchase(thePurchase);
-        thePurchase.setSum( thePurchase.getProductQuantity()*thePurchase.getProductPrice() );
-        return purchaseDao.save(thePurchase);
-    }
-
-
-    public void delete(Purchase thePurchase){
-        purchaseDao.delete(thePurchase);
-    }
-    public void delete(List<Purchase> purchases){
-        purchaseDao.deleteAll(purchases);
-    }
-    public void delete(Long id){
-        purchaseDao.deleteById(id);
-    }
-
-    public boolean exists(Long id){
-        return purchaseDao.existsById(id);
-    }
-
-    private void setProductToPurchase(Purchase thePurchase){
-        Product product = productService.getOne(thePurchase.getProduct().getName());
-        if( product == null ){
-            product = new Product();
-            product.setName(thePurchase.getProduct().getName());
-            product.setCategory(thePurchase.getProduct().getCategory());
-            productService.add(product);
+        purchaseListDto = purchaseDao.findAll().stream()
+                .map(purchaseMapper::purchaseToPurchaseDto)
+                .collect(Collectors.toList());
+        if (purchaseListDto.isEmpty()) {
+            throw new DataNotFoundException("Purchases list not found");
         }
-        thePurchase.setProduct(product);
+        return purchaseListDto;
+    }
+
+    public PurchaseDto findById(Long id) {
+        Optional<Purchase> purchaseOptional = purchaseDao.findById(id);
+        if (!purchaseOptional.isPresent()) {
+            throw new DataNotFoundException("Not found purchase with id: " + id);
+        }
+        return purchaseMapper.purchaseToPurchaseDto(purchaseOptional.get());
+    }
+
+    public List<PurchaseDto> findByBillId(Long id) {
+        List<PurchaseDto> purchaseListDto = new ArrayList<>();
+
+        purchaseListDto = purchaseDao.findByBillId(id).stream()
+                .map(purchaseMapper::purchaseToPurchaseDto)
+                .collect(Collectors.toList());
+        if (purchaseListDto.isEmpty()) {
+            throw new DataNotFoundException("Purchases list not found for bill with id: " + id);
+        }
+        return purchaseListDto;
+    }
+// logic move to billService
+//    public PurchaseDto addNew(Long billId, PurchaseDto thePurchaseDto) {
+//
+//        Optional<Product> product = productDao.findById(thePurchaseDto.getProduct_id());
+//        if(!product.isPresent()){
+//            Product product1 = new Product();
+//            product1.setId(thePurchaseDto.getProduct_id());
+//        }
+//
+//        return purchaseDao.save(thePurchase);
+//    }
+//
+//    public PurchaseDto update(Long billId, Purchase thePurchase) {
+//        setProductToPurchase(thePurchase);
+//        thePurchase.setSum(thePurchase.getProductQuantity() * thePurchase.getProductPrice());
+//        return purchaseDao.save(thePurchase);
+//    }
+//
+//    public void delete(List<PurchaseDto> purchasesDtoList) {
+//        List<Purchase> list = purchasesDtoList.stream()
+//                .map(purchaseMapper::purchaseDtoToPurchase)
+//                .collect(Collectors.toList());
+//
+//        purchaseDao.deleteAll(list);
+//    }
+
+    public void delete(Long id) {
+        purchaseDao.deleteById(id);
     }
 }
