@@ -8,20 +8,20 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring", uses = {BillDao.class})
+@Mapper(componentModel = "spring", uses = {BillDao.class, ProductMapper.class})
 public interface PurchaseMapper {
 
     PurchaseMapper INSTANCE = Mappers.getMapper(PurchaseMapper.class);
 
     @Mappings({
-            @Mapping(source = "bill_id" , target = "bill.id"),
-            @Mapping(source = "product" , target = "product")
+            @Mapping(source = "bill_id" , target = "bill"),
+            @Mapping(source = "productDto" , target = "product")
     })
     Purchase purchaseDtoToPurchase(PurchaseDto purchaseDto);
 
     @Mappings({
             @Mapping(source = "bill.id" , target = "bill_id"),
-            @Mapping(source = "product" , target = "product")
+            @Mapping(source = "product" , target = "productDto")
     })
     PurchaseDto purchaseToPurchaseDto(Purchase purchase);
 }

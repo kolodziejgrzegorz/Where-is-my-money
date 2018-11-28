@@ -1,6 +1,5 @@
 package com.whereIsMyMoney.api.model;
 
-import com.whereIsMyMoney.domain.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import lombok.Setter;
 public class PurchaseDto {
 
     private Long id;
-    private Product product;
+    private ProductDto productDto;
     private Integer productQuantity;
     private Double productPrice;
     private Double sum;
