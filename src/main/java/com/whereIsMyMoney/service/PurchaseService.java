@@ -50,7 +50,19 @@ public class PurchaseService {
                 .map(purchaseMapper::purchaseToPurchaseDto)
                 .collect(Collectors.toList());
         if (purchaseListDto.isEmpty()) {
-            throw new DataNotFoundException("Purchases list not found for bill with id: " + id);
+            throw new DataNotFoundException("Not Found Purchase with bill id: " + id);
+        }
+        return purchaseListDto;
+    }
+
+    public List<PurchaseDto> findByProductId(Long id) {
+        List<PurchaseDto> purchaseListDto = new ArrayList<>();
+
+        purchaseListDto = purchaseDao.findByProductId(id).stream()
+                .map(purchaseMapper::purchaseToPurchaseDto)
+                .collect(Collectors.toList());
+        if (purchaseListDto.isEmpty()) {
+            throw new DataNotFoundException("Not Found Purchase with product id:  " + id);
         }
         return purchaseListDto;
     }

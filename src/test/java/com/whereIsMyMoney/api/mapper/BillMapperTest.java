@@ -39,6 +39,9 @@ public class BillMapperTest {
     @Mock
     UserDao userDao;
 
+    @Mock
+    PurchaseMapper purchaseMapper;
+
     @InjectMocks
     BillMapper billMapper = new BillMapperImpl();
 

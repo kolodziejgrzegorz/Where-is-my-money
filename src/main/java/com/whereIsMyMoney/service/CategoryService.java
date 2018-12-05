@@ -44,7 +44,7 @@ public class CategoryService {
         }
         return categoryMapper.categoryToCategoryDto(categoryOptional.get());
     }
-    public CategoryDto findById(String name){
+    public CategoryDto findByName(String name){
         Optional<Category> categoryOptional = categoryDao.findByName(name);
         if(!categoryOptional.isPresent()){
             throw new DataNotFoundException("Not Found category with name: " + name);
@@ -66,6 +66,9 @@ public class CategoryService {
         Optional<Category> categoryOptional = categoryDao.findByName(theCategoryDto.getName());
         if(!categoryOptional.isPresent()){
             throw new DataNotFoundException("Not found category with name: " + theCategoryDto.getName());
+        }
+        if(categoryDao.existsByName(theCategoryDto.getName())){
+            throw new DataExistsException("Category with name: " + theCategoryDto.getName() + " already exists");
         }
         Category savedCategory = categoryDao.save(categoryMapper.categoryDtoToCategory(theCategoryDto));
 

@@ -53,7 +53,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler({ DataNotFoundException.class })
-	public ResponseEntity<Object> handleDataNotFound(DataNotFoundException ex, WebRequest request) {
+	public ResponseEntity<Object> handleDataNotFound(Exception ex, WebRequest request) {
 		ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND, ex.getMessage(), "404");
 		return new ResponseEntity<Object>(errorMessage, new HttpHeaders(), errorMessage.getStatus());
 	}

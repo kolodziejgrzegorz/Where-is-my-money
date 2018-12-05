@@ -21,7 +21,7 @@ public class UserController {
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getAllUsers() {
-        List<User> users = userService.getAll();
+        List<User> users = userService.findAll();
         if(users == null || users.isEmpty()) {
             throw new DataNotFoundException("Users list not found");
         }

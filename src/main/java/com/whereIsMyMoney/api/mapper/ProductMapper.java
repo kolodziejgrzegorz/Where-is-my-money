@@ -6,13 +6,15 @@ import com.whereIsMyMoney.domain.Category;
 import com.whereIsMyMoney.domain.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
 
-@Mapper(componentModel = "spring", uses = {CategoryDao.class})
+@Mapper(componentModel = "spring")
 public abstract class ProductMapper {
 
+    @Autowired
     private CategoryDao categoryDao;
 
     @Mapping(source = "categoryName", target = "category")

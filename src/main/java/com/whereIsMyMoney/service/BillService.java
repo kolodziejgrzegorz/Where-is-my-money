@@ -17,17 +17,10 @@ import java.util.stream.Collectors;
 public class BillService {
 
     private final BillDao billDao;
-    private final ShopService shopService;
-    private final PurchaseService purchaseService;
-    private final UserService userService;
     private final BillMapper billMapper;
 
-    public BillService(BillDao billDao, ShopService shopService,
-                       PurchaseService purchaseService, UserService userService, BillMapper billMapper) {
+    public BillService(BillDao billDao, BillMapper billMapper) {
         this.billDao = billDao;
-        this.shopService = shopService;
-        this.purchaseService = purchaseService;
-        this.userService = userService;
         this.billMapper = billMapper;
     }
 
@@ -54,7 +47,7 @@ public class BillService {
         return billMapper.billToBillDto(billOptional.get());
     }
 
-    public List<BillDto> getByUserId(Long id){
+    public List<BillDto> findByUserId(Long id){
         List<BillDto> billDtos = new ArrayList<>();
 
         billDtos = billDao.findByUserId(id).stream()
@@ -62,66 +55,30 @@ public class BillService {
                 .collect(Collectors.toList());
 
         if( billDtos.isEmpty() ) {
-            throw new DataNotFoundException("Bills list not found");
+            throw new DataNotFoundException("Not Found Bill with user id:" + id);
         }
         return billDtos;
     }
 
     public BillDto addNew(BillDto theBillDto){
-        Bill bill = new Bill();
+        Bill newBill = billMapper.billDtoToBill(theBillDto);
 
-        bill = billMapper.billDtoToBill(theBillDto);
-
-
-        return null;
+        return billMapper.billToBillDto(billDao.save(newBill));
     }
 
     public BillDto update(Long id, BillDto theBillDto){
         Bill updatedBill = billMapper.billDtoToBill(theBillDto);
         updatedBill.setId(id);
 
-//        setUserToBill(theBill);
-//        setShopToBill(theBill);
-//        theBill.setSum(sumCalculator(theBill));
         return billMapper.billToBillDto(billDao.save(updatedBill));
     }
 
-    public void delete(Bill theBill){
-//        deletePurchasesByBillId(theBill);
-        billDao.delete(theBill);
-    }
     public void delete(Long id){
-//      when delete bill delete also all his list
-//        deletePurchasesByBillId(getOne(id));
         billDao.deleteById(id);
     }
 
-//    private void setShopToBill(BillDto theBillDto){
-//        String shopName = theBillDto.getShopName();
-//        if(shopService.findByName(shopName) == null){
-//            throw new DataNotFoundException("Not found shop with name " + shopName);
-//        }
-//        ShopDto shopDto = shopService.findByName(shopName);
-//        theBill.setShop(shop);
-//    }
-
-    private void setUserToBill(Bill theBill){
-        String userName = theBill.getUser().getName();
-        User user = userService.findByName(userName);
-        theBill.setUser(user);
+    public void deleteByUser(User user){
+        List<Bill> bills = billDao.findByUserName(user.getName());
+        billDao.deleteAll(bills);
     }
-
-//    private void deletePurchasesByBillId(Bill theBill){
-//        List<Purchase> purchases = purchaseService.findByBillId(theBill.getId());
-//        purchaseService.delete(purchases);
-//    }
-//
-//    private Double sumCalculator(BillDto theBillDto){
-//        Double sum = 0.0;
-//        List<Purchase> purchases = purchaseService.findByBillId(theBillDto.getId());
-//        for(Purchase p : purchases){
-//            sum += p.getSum();
-//        }
-//        return sum;
-//    }
 }

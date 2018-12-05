@@ -10,4 +10,6 @@ public interface ProductDao extends JpaRepository<Product, Long> {
     Optional<Product> findByName(String name);
     List<Product> findByCategoryName(String name);
     List<Product> findByNameStartingWith(String name);
+    boolean existsByName(String name);
+    void deleteByName(String name);
 }

@@ -11,7 +11,7 @@ import org.mapstruct.Mappings;
 
 import java.util.Optional;
 
-@Mapper(componentModel = "spring", uses = {ShopDao.class, UserDao.class})
+@Mapper(componentModel = "spring", uses = {ShopDao.class, UserDao.class, PurchaseMapper.class})
 public abstract class BillMapper {
 
     private UserDao userDao;

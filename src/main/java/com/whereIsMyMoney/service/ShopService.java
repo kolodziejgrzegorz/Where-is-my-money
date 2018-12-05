@@ -64,9 +64,12 @@ public class ShopService {
     }
 
     public ShopDto update(ShopDto theShopDto) {
-        Optional<Shop> shopOptional = shopDao.findByName(theShopDto.getName());
+        Optional<Shop> shopOptional = shopDao.findById(theShopDto.getId());
         if(!shopOptional.isPresent()){
-            throw new DataNotFoundException("Not found shop with name: " + theShopDto.getName());
+            throw new DataNotFoundException("Not found shop with id: " + theShopDto.getId());
+        }
+        if(shopDao.existsByName(theShopDto.getName())){
+            throw new DataExistsException("Shop with name '" + theShopDto.getName() + "' already exists");
         }
         Shop savedShop = shopDao.save(shopMapper.shopDtoToShop(theShopDto));
 
@@ -75,5 +78,9 @@ public class ShopService {
 
     public void delete(Long id) {
         shopDao.deleteById(id);
+    }
+
+    public void delete(String name) {
+        shopDao.deleteByName(name);
     }
 }

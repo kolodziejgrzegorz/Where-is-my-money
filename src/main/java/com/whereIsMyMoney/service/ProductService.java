@@ -40,8 +40,9 @@ public class ProductService {
         Optional<Product> productOptional = productDao.findById(id);
         if(!productOptional.isPresent()){
             throw new DataNotFoundException("Not found product with id: " + id);
+        }else {
+            return productMapper.productToProductDto(productOptional.get());
         }
-        return productMapper.productToProductDto(productOptional.get());
     }
 
     public ProductDto findByName(String name) {
@@ -63,9 +64,12 @@ public class ProductService {
     }
 
     public ProductDto update(ProductDto theProductDto) {
-        Optional<Product> productOptional = productDao.findByName(theProductDto.getName());
+        Optional<Product> productOptional = productDao.findById(theProductDto.getId());
         if(!productOptional.isPresent()){
-            throw new DataNotFoundException("Not found product with name: " + theProductDto.getName());
+            throw new DataNotFoundException("Not found product with id: " + theProductDto.getId());
+        }
+        if(productDao.existsByName(theProductDto.getName())){
+            throw new DataExistsException("Product with name: " + theProductDto.getName() + " already exists");
         }
         Product savedProduct = productDao.save(productMapper.productDtoToProduct(theProductDto));
 
@@ -74,6 +78,10 @@ public class ProductService {
         
     public void delete(Long id){
         productDao.deleteById(id);
+    }
+
+    public void delete(String name){
+        productDao.deleteByName(name);
     }
 
     //todo
