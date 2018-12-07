@@ -19,17 +19,17 @@ public class PurchaseController {
         this.purchaseService = purchaseService;
     }
 
-    @GetMapping("/list")
+    @GetMapping("/purchases")
     public List<PurchaseDto> getAllPurchases() {
         return purchaseService.findAll();
     }
 
-    @GetMapping("/bills/{billId}/list")
+    @GetMapping("/bills/{billId}/purchases")
     public List<PurchaseDto> getBillPurchases(@PathVariable Long billId) {
         return purchaseService.findByBillId(billId);
     }
 
-    @GetMapping("/list/{id}")
+    @GetMapping("/purchases/{id}")
     public PurchaseDto getPurchase(@PathVariable("id") Long id) {
         return purchaseService.findById(id);
     }

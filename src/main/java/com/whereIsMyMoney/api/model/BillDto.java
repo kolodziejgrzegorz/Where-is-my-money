@@ -1,14 +1,10 @@
 package com.whereIsMyMoney.api.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class BillDto {
 
     private Long id;
