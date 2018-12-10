@@ -146,7 +146,6 @@ public class BillServiceTest {
         savedDto.setPurchaseListDto(objectList);
 
         when(dao.save(any(Bill.class))).thenReturn(bill);
-
         BillDto returnDto = service.addNew(savedDto);
 
         assertEquals(ID, returnDto.getId());
